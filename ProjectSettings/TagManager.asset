@@ -65,3 +65,9 @@ TagManager:
   - name: In Front of Player
     uniqueID: 2212706857
     locked: 0
+  - name: Special Effects
+    uniqueID: 2803374603
+    locked: 0
+  - name: UI
+    uniqueID: 1764508787
+    locked: 0

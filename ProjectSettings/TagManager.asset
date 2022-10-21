@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Stops Movement
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1993165727
+    locked: 0
+  - name: Ground Overlay
+    uniqueID: 3002337947
+    locked: 0
+  - name: Tank Wheels
+    uniqueID: 844726159
+    locked: 0
+  - name: Tank Hull
+    uniqueID: 2113928409
+    locked: 0
+  - name: Colliders
+    uniqueID: 2542596851
+    locked: 0
+  - name: Tank Gun
+    uniqueID: 2977100395
+    locked: 0
+  - name: Tank Turret
+    uniqueID: 61830705
+    locked: 0
+  - name: In Front of Player
+    uniqueID: 2212706857
+    locked: 0

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 //
@@ -21,11 +23,17 @@ public class TankController : MonoBehaviour
 
     private Vector3 tankDirection = Vector3.up;
     private Quaternion targetRotation = Quaternion.identity;
+    private Vector2 movementInput = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
     {
         movePoint.parent = null;
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        movementInput = context.ReadValue<Vector2>();
     }
 
     // Update is called once per frame
@@ -34,13 +42,14 @@ public class TankController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
-        var horizontal = Input.GetAxisRaw("Horizontal");
-        var vertical = Input.GetAxisRaw("Vertical");
+        var horizontal = removeDeadZone(movementInput.x); // Input.GetAxisRaw("Horizontal");
+        var vertical = removeDeadZone(movementInput.y); // Input.GetAxisRaw("Vertical");
 
         if (isLocationApproximatlyEqual(transform.position, movePoint.position) &&
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
         {
             startTracks(false);
+            Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
 
             if ((Mathf.Abs(horizontal) == 1 || Mathf.Abs(vertical) == 1))  // if we have some input
             {
@@ -89,5 +98,13 @@ public class TankController : MonoBehaviour
     {
         leftTrack.animator.SetBool("moving", start);
         rightTrack.animator.SetBool("moving", start);
+    }
+
+    private float removeDeadZone(float input)
+    {
+        float deadZoneMin = 0.125f;
+        float deadZoneMax = 0.925f;
+        var absInput = MathF.Abs(input);
+        return Mathf.Sign(input) * (absInput > deadZoneMax ? 1.0f : absInput < deadZoneMin ? 0 : absInput);
     }
 }

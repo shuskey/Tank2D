@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+
 
 public class Shoot : MonoBehaviour
 {
@@ -15,16 +17,23 @@ public class Shoot : MonoBehaviour
     public UnityEvent<float> OnReloading; 
 
     private bool canShoot = true;
+    private bool shootInputDetected = false;
+
     public void Start()
     {
         OnReloading?.Invoke(reloadDelay);
+    }
+
+    public void OnShootButtonPressed(InputAction.CallbackContext context)
+    {
+        shootInputDetected = context.action.triggered;
     }
 
     public void Update()
     {
         if (canShoot)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (shootInputDetected)  // Input.GetButtonDown("Fire1"))
             {
                 canShoot = false;
                 ShootShell();
@@ -35,7 +44,6 @@ public class Shoot : MonoBehaviour
         {
             OnCantShoot?.Invoke();
         }
-
     }
 
     IEnumerator ShootingYield()

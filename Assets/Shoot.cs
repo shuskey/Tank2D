@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Shoot : MonoBehaviour
 {
@@ -10,15 +11,29 @@ public class Shoot : MonoBehaviour
     [SerializeField] float despawnTime = 5;
     [SerializeField] float shellSpeed = 50.0f;
 
+    public UnityEvent OnShoot, OnCantShoot;
+    public UnityEvent<float> OnReloading; 
+
     private bool canShoot = true;
+    public void Start()
+    {
+        OnReloading?.Invoke(reloadDelay);
+    }
 
     public void Update()
     {
-        if (Input.GetButtonDown("Fire1") && canShoot)
+        if (canShoot)
         {
-            canShoot = false;
-            ShootShell();
-            StartCoroutine(ShootingYield());
+            if (Input.GetButtonDown("Fire1"))
+            {
+                canShoot = false;
+                ShootShell();
+                StartCoroutine(ShootingYield());
+            }
+        }
+        else
+        {
+            OnCantShoot?.Invoke();
         }
 
     }
@@ -35,5 +50,8 @@ public class Shoot : MonoBehaviour
         newShell.GetComponent<Rigidbody2D>().velocity = newShell.transform.up * shellSpeed;
 
         Destroy(newShell, despawnTime);
+
+        OnShoot?.Invoke();
+        OnReloading.Invoke(reloadDelay);
     }
 }

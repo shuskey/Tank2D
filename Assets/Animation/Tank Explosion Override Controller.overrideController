@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Tank Explosion Override Controller
+  m_Controller: {fileID: 9100000, guid: 74aee90da297a154ead4f84b05f1f2a4, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 72fcd98b279c9d444b67492a88f1f89b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 92d443ef4b88e9b42b8fc72a85b19c4c, type: 2}

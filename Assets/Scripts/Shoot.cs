@@ -9,7 +9,7 @@ public class Shoot : MonoBehaviour
 {
     [SerializeField] Transform spawnPoint;
     [SerializeField] GameObject ShellPrefab;
-    [SerializeField] float reloadDelay = 0.1f;
+    [SerializeField] float reloadDelay = 1.0f;
     [SerializeField] float despawnTime = 5;
     [SerializeField] float shellSpeed = 50.0f;
 
@@ -18,6 +18,7 @@ public class Shoot : MonoBehaviour
 
     private bool canShoot = true;
     private bool shootInputDetected = false;
+    private float currentDelayCountdown = 0;
 
     public void Start()
     {
@@ -36,13 +37,17 @@ public class Shoot : MonoBehaviour
             if (shootInputDetected)  // Input.GetButtonDown("Fire1"))
             {
                 canShoot = false;
+                currentDelayCountdown = reloadDelay;
                 ShootShell();
-                StartCoroutine(ShootingYield());
+               // StartCoroutine(ShootingYield());
             }
         }
         else
         {
             OnCantShoot?.Invoke();
+            currentDelayCountdown -= Time.deltaTime;
+            if (currentDelayCountdown <= 0)
+                canShoot = true;
         }
     }
 
@@ -57,7 +62,7 @@ public class Shoot : MonoBehaviour
         var newShell = Instantiate(ShellPrefab, spawnPoint.position, spawnPoint.rotation);        
         newShell.GetComponent<Rigidbody2D>().velocity = newShell.transform.up * shellSpeed;
 
-        Destroy(newShell, despawnTime);
+        Destroy(newShell, despawnTime);       
 
         OnShoot?.Invoke();
         OnReloading.Invoke(reloadDelay);

@@ -49,7 +49,7 @@ public class TankController : MonoBehaviour
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
         {
             startTracks(false);
-            Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
+           // Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
 
             if ((Mathf.Abs(horizontal) == 1 || Mathf.Abs(vertical) == 1))  // if we have some input
             {

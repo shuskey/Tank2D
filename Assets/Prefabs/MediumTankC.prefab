@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 7014949748515964942, guid: b39cdacf69c80f1458b67b8477d7739d, type: 3}
-  radius: 0.1
+  radius: 0.53
 --- !u!114 &4758702340480454323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ Transform:
   - {fileID: 6924191243024614026}
   - {fileID: 6262121642096946775}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4736801432325441152
 MonoBehaviour:

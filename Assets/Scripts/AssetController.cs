@@ -7,11 +7,8 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-//
-//  From https://www.youtube.com/watch?v=mbzXIOKZurA
-//
 
-public class TankController : MonoBehaviour
+public class AssetController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5.0f;  // amount in a second
     [SerializeField] private float rotationSpeed = 360.0f;  // amount in a second
@@ -19,6 +16,7 @@ public class TankController : MonoBehaviour
 
     [SerializeField] private TrackController leftTrack;
     [SerializeField] private TrackController rightTrack;
+    [SerializeField] private GameObject myLittleLightGameObject;
     [SerializeField] private Transform movePoint;
     [SerializeField] private LayerMask whatStopsMovement;
 
@@ -27,22 +25,29 @@ public class TankController : MonoBehaviour
     private Vector3 tankDirection = Vector3.up;
     private Quaternion targetRotation = Quaternion.identity;
     private Vector2 movementInput = Vector2.zero;
+    private bool assetEngaged = false;
 
     // Start is called before the first frame update
     void Start()
     {
         movePoint.parent = null;
-
+        myLittleLightGameObject.SetActive(false);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void AssetRemoteControlEngaged(bool assetEngaged)
     {
-        movementInput = context.ReadValue<Vector2>();
+        this.assetEngaged = assetEngaged;
+        myLittleLightGameObject.SetActive(assetEngaged);
     }
 
-    public void OnShootButtonPressed(InputAction.CallbackContext context)
-    {
-        OnShoot?.Invoke(context.action.triggered);
+    public void MoveButtonPressed(Vector2 moveVector)
+    {     
+        movementInput = moveVector;
+    }
+
+    public void ShootButtonPressed(bool shootButtonState)
+    {        
+        OnShoot?.Invoke(shootButtonState);
     }
 
     // Update is called once per frame
@@ -73,8 +78,9 @@ public class TankController : MonoBehaviour
                 // Find the difference (delta) with the current tank rotation
                 var delta = requestedInputAngle - targetRotation.eulerAngles.z;                
 
-                if (delta == 0 || delta == -360)  // just do a move - we are already poining this way
-                {
+                if ((delta == 0 || delta == -360) &&                          // just do a move - we are already poining this way
+                    (leftTrack is not null && rightTrack is not null))      // some assets have NO wheels/track so do not move them
+                    {
                     var potentialMovePoint = movePoint.position + transform.up * moveDistance;
                     if (!Physics2D.OverlapCircle(potentialMovePoint, 0.2f, whatStopsMovement))
                         movePoint.position = potentialMovePoint;
@@ -109,8 +115,10 @@ public class TankController : MonoBehaviour
 
     void startTracks(bool start)
     {
-        leftTrack.animator.SetBool("moving", start);
-        rightTrack.animator.SetBool("moving", start);
+        if (leftTrack is not null)
+            leftTrack.animator.SetBool("moving", start);
+        if (rightTrack is not null)
+            rightTrack.animator.SetBool("moving", start);
     }
 
     private float removeDeadZone(float input)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyUtility : MonoBehaviour
 {
-public void DestroyHealper()
+public void DestroyHelper()
     {
         Destroy(gameObject);
     }

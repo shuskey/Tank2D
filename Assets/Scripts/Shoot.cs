@@ -25,9 +25,14 @@ public class Shoot : MonoBehaviour
         OnReloading?.Invoke(reloadDelay);
     }
 
-    public void OnShootButtonPressed(InputAction.CallbackContext context)
+    //public void OnShootButtonPressed(InputAction.CallbackContext context)
+    //{
+    //    shootInputDetected = context.action.triggered;
+    //}
+
+    public void OnShootThisGun(bool shootIfTrue)
     {
-        shootInputDetected = context.action.triggered;
+        shootInputDetected = shootIfTrue;
     }
 
     public void Update()

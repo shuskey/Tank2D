@@ -10,15 +10,24 @@ using UnityEngine.UIElements;
 
 public class BaseCampController : MonoBehaviour
 {
-    [SerializeField] private GameObject[] assetGameObjects;  
+    [SerializeField] private GameObject[] assetGameObjects;
 
     private AssetController[] assetControllerScipt = new AssetController[5];
 
     private int currentAssetBeingControlledIndex = 0;
     private int numberOfAssetsInBaseCamp = 4;
 
+    private Vector2[] startPositions = { new Vector2(-6, 3), new Vector2(12, 9) };
+
+    private Camera assetFollowCamera;
+
     private void Awake()
     {
+        assetFollowCamera = GetComponentInChildren<Camera>();
+
+        var playerIndex = GetComponent<PlayerInput>().playerIndex;
+        transform.position = startPositions[playerIndex];
+
         int index = 0;
         foreach (var assetGameObject in assetGameObjects)
         {
@@ -43,6 +52,8 @@ public class BaseCampController : MonoBehaviour
             currentAssetBeingControlledIndex = potentialNewIndex;
 
             assetControllerScipt[currentAssetBeingControlledIndex].AssetRemoteControlEngaged(true);
+            assetFollowCamera.GetComponentInChildren<CameraFollow>().
+                SetAssetToFollow(assetGameObjects[currentAssetBeingControlledIndex].transform.GetChild(0).gameObject);
         }
     }
 
@@ -61,6 +72,8 @@ public class BaseCampController : MonoBehaviour
             currentAssetBeingControlledIndex = potentialNewIndex;
 
             assetControllerScipt[currentAssetBeingControlledIndex].AssetRemoteControlEngaged(true);
+            assetFollowCamera.GetComponentInChildren<CameraFollow>().
+                SetAssetToFollow(assetGameObjects[currentAssetBeingControlledIndex].transform.GetChild(0).gameObject);
         }
     }
 

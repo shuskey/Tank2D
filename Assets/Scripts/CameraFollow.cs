@@ -8,6 +8,11 @@ public class CameraFollow : MonoBehaviour
 
     private Vector3 offset;
 
+    public void SetAssetToFollow(GameObject assetGameObject)
+    {
+        player = assetGameObject;
+    }
+
     void Start()
     {
         offset = transform.position - player.transform.position;

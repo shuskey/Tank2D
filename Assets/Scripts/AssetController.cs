@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,12 +27,23 @@ public class AssetController : MonoBehaviour
     private Quaternion targetRotation = Quaternion.identity;
     private Vector2 movementInput = Vector2.zero;
     private bool assetEngaged = false;
+    private bool iAmABaseOnlyMoveGunTurret = false;
+    private GameObject gunTurretGameObject;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Only search Children 
+        gunTurretGameObject = new List<GameObject>
+            (GameObject.FindGameObjectsWithTag("GunTurret")).
+            Find(g => g.transform.IsChildOf(this.transform));        
+        iAmABaseOnlyMoveGunTurret = gunTurretGameObject == null ? false : true;
+
         movePoint.parent = null;
         myLittleLightGameObject.SetActive(false);
+
+        // Your target rotation start with your current orientation
+        targetRotation = transform.localRotation;
     }
 
     public void AssetRemoteControlEngaged(bool assetEngaged)
@@ -53,6 +65,19 @@ public class AssetController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (iAmABaseOnlyMoveGunTurret)
+        {            
+            if (movementInput != Vector2.zero)
+            {
+                float targetRotationAngle = Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg - 90;
+                var q = Quaternion.AngleAxis(targetRotationAngle, Vector3.forward);
+                gunTurretGameObject.transform.rotation = 
+                    Quaternion.Slerp(gunTurretGameObject.transform.rotation, q, rotationSpeed * Time.deltaTime);
+                
+            }
+            return;
+        }
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
@@ -63,7 +88,7 @@ public class AssetController : MonoBehaviour
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
         {
             startTracks(false);
-           // Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
+            // Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
 
             if ((Mathf.Abs(horizontal) == 1 || Mathf.Abs(vertical) == 1))  // if we have some input
             {
@@ -74,9 +99,9 @@ public class AssetController : MonoBehaviour
                 // No diagonals please
                 if (Mathf.Abs(vertical) == 1)    // result in 0 or 180
                     requestedInputAngle = Mathf.Sign(vertical) * -90 + 90;
-                      
+
                 // Find the difference (delta) with the current tank rotation
-                var delta = requestedInputAngle - targetRotation.eulerAngles.z;                
+                var delta = Mathf.Round(requestedInputAngle - targetRotation.eulerAngles.z); 
 
                 if ((delta == 0 || delta == -360) &&                          // just do a move - we are already poining this way
                     (leftTrack is not null && rightTrack is not null))      // some assets have NO wheels/track so do not move them
@@ -107,6 +132,10 @@ public class AssetController : MonoBehaviour
             startTracks(true);
         }
     }
+
+    private bool isAngleApproximatlyEqual(float a1, float a2, float precision = 1.0f) =>
+    Mathf.Abs(a2 - a1) <= precision;
+
     private bool isRotationApproximatlyEqual(Quaternion q1, Quaternion q2, float precision = 0.0000004f) => 
         Mathf.Abs(Quaternion.Dot(q1, q2)) >= 1 - precision;
 

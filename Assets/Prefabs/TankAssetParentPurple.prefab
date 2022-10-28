@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 6512039058405077199}
   - component: {fileID: 5992297585588285}
   m_Layer: 0
-  m_Name: TankAssetParent
+  m_Name: TankAssetParentPurple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

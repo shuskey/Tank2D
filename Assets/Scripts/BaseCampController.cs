@@ -6,21 +6,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
-
 
 public class BaseCampController : MonoBehaviour
 {
     [SerializeField] private GameObject[] player1AssetPrefabs;
     [SerializeField] private GameObject[] player2AssetPrefabs;
+    [SerializeField] private LayerMask whatStopsMovement;
+
     private GameObject[] playerAssetGameObjects = new GameObject[5];    
     private AssetController[] playerAssetControllerScipt = new AssetController[5];    
     private int playerIndexThatOwnsThisBaseCamp = 0;
+    private const int worldUnitsPerGrid = 3;
 
     private int currentAssetBeingControlledIndex = 0;
     private int assetBufferSize = 5;
 
-    private Vector2[] baseCampStartPositions = { new Vector2(-6, 3), new Vector2(12, 9) };
+    private Vector2[] baseCampStartPositions = { new Vector2(-6, 3), new Vector2(55*3, -24) };
     private Vector2[] assetStartPositions = { Vector2.zero, Vector2.up * 3, Vector2.right * 3, Vector2.down * 3, Vector2.left * 3 };
     private float[] assetStartRotationAngles = { 0, 0, -90, 180, 90};
 
@@ -48,12 +49,18 @@ public class BaseCampController : MonoBehaviour
         }
 
         // Set BaseCamp position        
-        transform.position = baseCampStartPositions[playerIndexThatOwnsThisBaseCamp];
+        transform.position = BaseCampPlacement.GetRandomViableBasePosition(whatStopsMovement) * worldUnitsPerGrid;
     }
 
     private void Start()
     {
         SelectThisAssetIndex(currentAssetBeingControlledIndex);
+    }
+
+    public void OnExitKeyPressed()
+    {
+        Debug.Log("Exit Key Pressed");
+        Application.Quit();
     }
 
     public void OnSelectNextAsset(InputAction.CallbackContext context)

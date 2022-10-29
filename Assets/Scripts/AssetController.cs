@@ -88,7 +88,9 @@ public class AssetController : MonoBehaviour
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
         {
             startTracks(false);
-            // Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
+
+            //if ((Mathf.Abs(horizontal) != 0 && Mathf.Abs(vertical) != 0))
+            //    Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
 
             if ((Mathf.Abs(horizontal) == 1 || Mathf.Abs(vertical) == 1))  // if we have some input
             {
@@ -152,8 +154,8 @@ public class AssetController : MonoBehaviour
 
     private float removeDeadZone(float input)
     {
-        float deadZoneMin = 0.125f;
-        float deadZoneMax = 0.925f;
+        float deadZoneMin = 0.285f;
+        float deadZoneMax = 0.715f;
         var absInput = MathF.Abs(input);
         return Mathf.Sign(input) * (absInput > deadZoneMax ? 1.0f : absInput < deadZoneMin ? 0 : absInput);
     }

@@ -17,7 +17,13 @@ public class AssignMonitor : MonoBehaviour
             {                
                 cam.targetDisplay = 1;
             }
-            
+
+            var allCanvas = GetComponentsInChildren<Canvas>();
+            foreach (var canvas in allCanvas)
+            {
+                canvas.targetDisplay = 1;
+            }
+
         }
     }
 

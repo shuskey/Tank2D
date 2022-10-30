@@ -8,4 +8,12 @@ public class DisableUtility : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public void InvokePlayerDefeatedEvent(int playerNumber)
+    {
+        if (playerNumber == 1)
+            EventManager.StartPlayerOneDefeatedEvent();
+        if (playerNumber == 2)
+            EventManager.StartPlayerOneDefeatedEvent();
+    }
 }

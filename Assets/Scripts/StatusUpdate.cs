@@ -10,14 +10,14 @@ public class StatusUpdate : MonoBehaviour
 
     private void Start()
     {
-        EventManager.PlayerOneDefeatedEvent += ShowPlayerOneDefeated;
-        EventManager.PlayerTwoDefeatedEvent += ShowPlayerTwoDefeated;
+        //EventManager.PlayerOneDefeatedEvent += ShowPlayerOneDefeated;
+        //EventManager.PlayerTwoDefeatedEvent += ShowPlayerTwoDefeated;
     }
 
     private void OnDisable()
     {
-        EventManager.PlayerOneDefeatedEvent -= ShowPlayerOneDefeated;
-        EventManager.PlayerOneDefeatedEvent -= ShowPlayerTwoDefeated;
+        //EventManager.PlayerOneDefeatedEvent -= ShowPlayerOneDefeated;
+        //EventManager.PlayerOneDefeatedEvent -= ShowPlayerTwoDefeated;
     }
 
     private void ShowPlayerOneDefeated()

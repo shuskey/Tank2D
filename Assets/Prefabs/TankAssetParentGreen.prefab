@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 5850808928722650193}
   - component: {fileID: 6512039058405077199}
   - component: {fileID: 5992297585588285}
+  - component: {fileID: 4104871039981476996}
   m_Layer: 0
   m_Name: TankAssetParentGreen
   m_TagString: Untagged
@@ -212,6 +213,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ecd72f0e6052c4ea0e5474f9258511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4104871039981476996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6434276238102491484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50acf8680ab349047861ea8e8e34c869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oilSpillTile: {fileID: 11400000, guid: c18736adc4e90c5438d976306621f683, type: 2}
+  tilemapName: Ground Overlay
 --- !u!1 &6780248894906481091
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,10 +440,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
@@ -436,7 +455,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5992297585588285}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 4104871039981476996}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
@@ -444,15 +471,31 @@ PrefabInstance:
       value: DisableObject
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: DropAnOilSpill
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3142895760703862028}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_value
+      objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: DisableUtility, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: OilSpillOnTileMap, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241432657424, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}

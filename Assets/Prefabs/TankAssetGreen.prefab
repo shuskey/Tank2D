@@ -140,6 +140,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnSelfdestruct:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -6905961251908248084}
+        m_TargetAssemblyTypeName: Damagable, Assembly-CSharp
+        m_MethodName: SelfDistruct
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &6924191241432657436
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -271,18 +286,6 @@ MonoBehaviour:
       - m_Target: {fileID: 4758702340480454323}
         m_TargetAssemblyTypeName: InstantiateUtility, Assembly-CSharp
         m_MethodName: InstantiateObject
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DisableUtility, Assembly-CSharp
-        m_MethodName: DisableObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1053,7 +1056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 6924191241643812615}
   ShellPrefab: {fileID: 2812189171711114962, guid: a439edab4f0d5ff45814c8db0bd3fb5f, type: 3}
-  reloadDelay: 1
+  reloadDelay: 0.1
   despawnTime: 1
   shellSpeed: 30
   OnShoot:

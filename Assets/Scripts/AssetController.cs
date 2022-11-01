@@ -22,13 +22,15 @@ public class AssetController : MonoBehaviour
     [SerializeField] private LayerMask whatStopsMovement;
 
     public UnityEvent<bool> OnShoot;
+    public UnityEvent<bool> OnSelfdestruct;
 
     private Vector3 tankDirection = Vector3.up;
     private Quaternion targetRotation = Quaternion.identity;
     private Vector2 movementInput = Vector2.zero;
     private bool assetEngaged = false;
-    private bool iAmABaseOnlyMoveGunTurret = false;
+    private bool iAmABaseOnlyMoveGunTurret = false;    
     private GameObject gunTurretGameObject;
+    private int playerIndexThatIBelongTo;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +46,43 @@ public class AssetController : MonoBehaviour
 
         // Your target rotation start with your current orientation
         targetRotation = transform.localRotation;
+    }
+
+    public void ListenForBaseCampDestruction(int playerIndex)
+    {
+        playerIndexThatIBelongTo = playerIndex;        
+    }
+
+    private void Awake()
+    { 
+        // Subscribe to Events
+        EventManager.PlayerOneDefeatedEvent += BaseCampOneDefeated;
+        EventManager.PlayerTwoDefeatedEvent += BaseCampTwoDefeated;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.PlayerOneDefeatedEvent -= BaseCampOneDefeated;
+        EventManager.PlayerTwoDefeatedEvent -= BaseCampTwoDefeated;
+    }
+    private void BaseCampOneDefeated()
+    {
+        // If this was our Base Camp, then self distruct
+        SelfDestruct(0);
+    }
+
+    private void BaseCampTwoDefeated()
+    {
+        // If this was our Base Camp, then self distruct
+        SelfDestruct(1);
+    }
+
+    private void SelfDestruct(int playerIndexThatWasDefeated)
+    {
+        if (playerIndexThatIBelongTo == playerIndexThatWasDefeated)
+        {
+            OnSelfdestruct?.Invoke(true);
+        }
     }
 
     public void AssetRemoteControlEngaged(bool assetEngaged)

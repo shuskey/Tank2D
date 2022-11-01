@@ -45,6 +45,7 @@ public class BaseCampController : MonoBehaviour
             baseCampAssetGameObject.transform.rotation = Quaternion.AngleAxis(assetStartRotationAngles[index], Vector3.forward);
             playerAssetGameObjects[index] = newInstantiatedGameObject;
             playerAssetControllerScipt[index] = newInstantiatedGameObject.GetComponentInChildren<AssetController>();
+            playerAssetControllerScipt[index].ListenForBaseCampDestruction(playerIndexThatOwnsThisBaseCamp);
             index++;
         }
 

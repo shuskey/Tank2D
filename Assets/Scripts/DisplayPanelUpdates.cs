@@ -25,7 +25,7 @@ public class DisplayPanelUpdates : MonoBehaviour
     private void OnDisable()
     {
         EventManager.PlayerOneDefeatedEvent -= ShowPlayerOneDefeated;
-        EventManager.PlayerOneDefeatedEvent -= ShowPlayerTwoDefeated;
+        EventManager.PlayerTwoDefeatedEvent -= ShowPlayerTwoDefeated;
     }
 
     private void ShowPlayerOneDefeated()

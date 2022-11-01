@@ -136,14 +136,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.6509804}
+  m_Color: {r: 0.0627451, g: 0.68235296, b: 0.32156864, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 58500083f083e67448b287a5e4bfa5b9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e46ddd324d485bc4f92fef29869fdbd8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -226,7 +226,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oilSpillTile: {fileID: 11400000, guid: c18736adc4e90c5438d976306621f683, type: 2}
-  tilemapName: Ground Overlay
 --- !u!1 &6780248894906481091
 GameObject:
   m_ObjectHideFlags: 0

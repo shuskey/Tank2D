@@ -35,6 +35,13 @@ public class Damagable : MonoBehaviour
         if (Health <= 0) { OnDead?.Invoke(); }
         else { OnHit?.Invoke(); }
     }
+    public void SelfDistruct()
+    {
+        // Could do more with this in the future
+        // perhaps neighboring damagables take a hit or two ?
+        Health = 0;
+        OnDead?.Invoke();
+    }
 
     public void Heal(int healthBoost)
     {

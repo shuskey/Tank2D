@@ -20,9 +20,9 @@ public class EventManager : Singleton<EventManager>
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-            PlayerOneDefeatedEvent?.Invoke();
-        if (Input.GetMouseButtonDown(1))
-            PlayerTwoDefeatedEvent?.Invoke();
+        //if (Input.GetMouseButtonDown(0))
+        //    PlayerOneDefeatedEvent?.Invoke();
+        //if (Input.GetMouseButtonDown(1))
+        //    PlayerTwoDefeatedEvent?.Invoke();
     }
 }

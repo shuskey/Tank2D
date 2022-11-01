@@ -99,7 +99,7 @@ Transform:
   - {fileID: 6924191242370623196}
   - {fileID: 6262121642096946775}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7300019010205854477
 MonoBehaviour:
@@ -813,7 +813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 6924191241643812615}
   ShellPrefab: {fileID: 2812189171711114962, guid: 9d9905f72527def45a96aa463085dbcd, type: 3}
-  reloadDelay: 1
+  reloadDelay: 0.1
   despawnTime: 1
   shellSpeed: 30
   OnShoot:

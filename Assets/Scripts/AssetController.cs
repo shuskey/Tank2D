@@ -56,14 +56,14 @@ public class AssetController : MonoBehaviour
     private void Awake()
     { 
         // Subscribe to Events
-        EventManager.PlayerOneDefeatedEvent += BaseCampOneDefeated;
-        EventManager.PlayerTwoDefeatedEvent += BaseCampTwoDefeated;
+        EventManager.PlayerOneBaseCampDefeatedEvent += BaseCampOneDefeated;
+        EventManager.PlayerTwoBaseCampDefeatedEvent += BaseCampTwoDefeated;
     }
 
     private void OnDestroy()
     {
-        EventManager.PlayerOneDefeatedEvent -= BaseCampOneDefeated;
-        EventManager.PlayerTwoDefeatedEvent -= BaseCampTwoDefeated;
+        EventManager.PlayerOneBaseCampDefeatedEvent -= BaseCampOneDefeated;
+        EventManager.PlayerTwoBaseCampDefeatedEvent -= BaseCampTwoDefeated;
     }
     private void BaseCampOneDefeated()
     {

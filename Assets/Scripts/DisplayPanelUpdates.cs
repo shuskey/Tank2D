@@ -7,10 +7,14 @@ public class DisplayPanelUpdates : MonoBehaviour
 {
 
     [SerializeField] private TMP_Text bottomDisplayText;
+    private int playerIndex;
+    private int playerOneTankCount = 4;
+    private int playerTwoTankCount = 4;
+
     // Start is called before the first frame update
     void Start()
     {
-        var playerIndex = GetComponentInParent<Canvas>().worldCamera.targetDisplay;
+        playerIndex = GetComponentInParent<Canvas>().worldCamera.targetDisplay;
         bottomDisplayText.text = playerIndex == 0 ?
             "Welcome Team Purple Perfect !" :
             "Welcome Green Team of Awesomeness !";
@@ -18,14 +22,44 @@ public class DisplayPanelUpdates : MonoBehaviour
     }
     private void Awake()
     {
-        EventManager.PlayerOneDefeatedEvent += ShowPlayerOneDefeated;
-        EventManager.PlayerTwoDefeatedEvent += ShowPlayerTwoDefeated;
+        EventManager.CelebratePlayerOneDefeatedEvent += ShowPlayerOneDefeated;
+        EventManager.CelebratePlayerTwoDefeatedEvent += ShowPlayerTwoDefeated;
+
+        EventManager.PlayerOneTankDefeatedEvent += PlayerOneTankDefeated;
+        EventManager.PlayerTwoTankDefeatedEvent += PlayerTwoTankDefeated;
     }
     
     private void OnDisable()
     {
-        EventManager.PlayerOneDefeatedEvent -= ShowPlayerOneDefeated;
-        EventManager.PlayerTwoDefeatedEvent -= ShowPlayerTwoDefeated;
+        EventManager.CelebratePlayerOneDefeatedEvent -= ShowPlayerOneDefeated;
+        EventManager.CelebratePlayerTwoDefeatedEvent -= ShowPlayerTwoDefeated;
+
+        EventManager.PlayerOneTankDefeatedEvent -= PlayerOneTankDefeated;
+        EventManager.PlayerTwoTankDefeatedEvent -= PlayerTwoTankDefeated;
+    }
+
+    private void PlayerOneTankDefeated()
+    {
+        playerOneTankCount--;
+        UpdateDisplayStatus();
+    }
+
+    private void PlayerTwoTankDefeated()
+    {
+        playerTwoTankCount--;
+        UpdateDisplayStatus();
+    }
+
+    private void UpdateDisplayStatus()
+    {
+        bottomDisplayText.text = playerIndex == 0 ?
+            $"Purple Perfect, Mine:{playerOneTankCount}, Enemy:{playerTwoTankCount}" :
+            $"Green Awesomeness, Mine:{playerTwoTankCount}, Enemy:{playerOneTankCount}";
+
+        if (playerOneTankCount == 0)
+            EventManager.StartCelebratePlayerOneDefeatedEvent();
+        if (playerTwoTankCount == 0)
+            EventManager.StartCelebratePlayerTwoDefeatedEvent();
     }
 
     private void ShowPlayerOneDefeated()
@@ -40,7 +74,7 @@ public class DisplayPanelUpdates : MonoBehaviour
 
     private void ShowDefeatedVictoryStatus(int playerIndexThatWasDefeated)
     {
-        if (GetComponentInParent<Canvas>().worldCamera.targetDisplay == playerIndexThatWasDefeated)
+        if (playerIndex == playerIndexThatWasDefeated)
             bottomDisplayText.text = "Defeated !";
         else
             bottomDisplayText.text = "Victory !";

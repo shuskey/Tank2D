@@ -28,14 +28,14 @@ public class Window_Confetti : MonoBehaviour {
         confettiList = new List<Confetti>();
 
         // Subscribe to Events
-        EventManager.PlayerOneDefeatedEvent += ShowPlayerOneDefeated;
-        EventManager.PlayerTwoDefeatedEvent += ShowPlayerTwoDefeated;
+        EventManager.CelebratePlayerOneDefeatedEvent += ShowPlayerOneDefeated;
+        EventManager.CelebratePlayerTwoDefeatedEvent += ShowPlayerTwoDefeated;
     }
 
     private void OnDestroy()
     {
-        EventManager.PlayerOneDefeatedEvent -= ShowPlayerOneDefeated;
-        EventManager.PlayerTwoDefeatedEvent -= ShowPlayerTwoDefeated;
+        EventManager.CelebratePlayerOneDefeatedEvent -= ShowPlayerOneDefeated;
+        EventManager.CelebratePlayerTwoDefeatedEvent -= ShowPlayerTwoDefeated;
     }
 
     private void ShowPlayerOneDefeated()

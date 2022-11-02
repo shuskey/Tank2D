@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 6512039058405077199}
   - component: {fileID: 5992297585588285}
   - component: {fileID: 4104871039981476996}
+  - component: {fileID: 7052874296086905290}
   m_Layer: 0
   m_Name: TankAssetParentGreen
   m_TagString: Untagged
@@ -226,6 +227,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oilSpillTile: {fileID: 11400000, guid: c18736adc4e90c5438d976306621f683, type: 2}
+--- !u!114 &7052874296086905290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6434276238102491484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a89a2ca6f4b684409625d8783e926f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6780248894906481091
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,7 +452,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
@@ -450,6 +463,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 5992297585588285}
@@ -457,6 +474,10 @@ PrefabInstance:
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 4104871039981476996}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 7052874296086905290}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
@@ -466,12 +487,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: DisableObject
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: DropAnOilSpill
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: ThisTankIsDestroyed
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -490,11 +519,23 @@ PrefabInstance:
       value: OilSpillOnTileMap, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: ReportTankDestroy, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241432657424, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}

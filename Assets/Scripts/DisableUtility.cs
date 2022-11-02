@@ -12,8 +12,14 @@ public class DisableUtility : MonoBehaviour
     public void InvokePlayerDefeatedEvent(int playerNumber)
     {
         if (playerNumber == 1)
-            EventManager.StartPlayerOneDefeatedEvent();
+        {
+            EventManager.StartPlayerOneBaseCampDefeatedEvent();
+            EventManager.StartCelebratePlayerOneDefeatedEvent();
+        }
         if (playerNumber == 2)
-            EventManager.StartPlayerTwoDefeatedEvent();
+        {
+            EventManager.StartPlayerTwoBaseCampDefeatedEvent();
+            EventManager.StartCelebratePlayerTwoDefeatedEvent();
+        }
     }
 }

@@ -5,17 +5,41 @@ using UnityEngine;
 
 public class EventManager : Singleton<EventManager>
 {    
-    public static event Action PlayerOneDefeatedEvent;
-    public static event Action PlayerTwoDefeatedEvent;
+    public static event Action PlayerOneBaseCampDefeatedEvent;
+    public static event Action PlayerTwoBaseCampDefeatedEvent;
+    public static event Action PlayerOneTankDefeatedEvent;
+    public static event Action PlayerTwoTankDefeatedEvent;
+    public static event Action CelebratePlayerOneDefeatedEvent;
+    public static event Action CelebratePlayerTwoDefeatedEvent;
 
-    public static void StartPlayerOneDefeatedEvent()
+    public static void StartPlayerOneBaseCampDefeatedEvent()
     {
-        PlayerOneDefeatedEvent?.Invoke();
+        PlayerOneBaseCampDefeatedEvent?.Invoke();
     }
 
-    public static void StartPlayerTwoDefeatedEvent()
+    public static void StartPlayerTwoBaseCampDefeatedEvent()
     {
-        PlayerTwoDefeatedEvent?.Invoke();
+        PlayerTwoBaseCampDefeatedEvent?.Invoke();
+    }
+
+    public static void StartPlayerOneTankDefeatedEvent()
+    {
+        PlayerOneTankDefeatedEvent?.Invoke();
+    }
+
+    public static void StartPlayerTwoTankDefeatedEvent()
+    {
+        PlayerTwoTankDefeatedEvent?.Invoke();
+    }
+
+    public static void StartCelebratePlayerOneDefeatedEvent()
+    {
+        CelebratePlayerOneDefeatedEvent?.Invoke();
+    }
+
+    public static void StartCelebratePlayerTwoDefeatedEvent()
+    {
+        CelebratePlayerTwoDefeatedEvent?.Invoke();
     }
 
     private void Update()

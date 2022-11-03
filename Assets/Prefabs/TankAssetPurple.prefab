@@ -125,7 +125,7 @@ MonoBehaviour:
   whatStopsMovement:
     serializedVersion: 2
     m_Bits: 8
-  wallPrefab: {fileID: 2836434468052280538, guid: f4c046178f9887e4696ac436a0ee6fb2, type: 3}
+  wallPrefab: {fileID: 2836434468052280538, guid: 181c86b1c84932347a93dd7a9414b9d8, type: 3}
   OnShoot:
     m_PersistentCalls:
       m_Calls:

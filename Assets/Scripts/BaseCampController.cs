@@ -103,7 +103,7 @@ public class BaseCampController : MonoBehaviour
 
     public void OnDropWallPressed(InputAction.CallbackContext context)
     {
-        Debug.Log($"Context action triggered {context.action.triggered}");        
+        //Debug.Log($"Context action triggered {context.action.triggered}");        
         playerAssetControllerScipt[currentAssetBeingControlledIndex].DropWallButtonPressed(context.action.triggered);
     }
 

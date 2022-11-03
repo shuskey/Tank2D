@@ -116,11 +116,9 @@ public class AssetController : MonoBehaviour
 
         if (dropWallWhileMoving)
         {
-            Debug.Log("MOVEMENT Wall already being dropped, RETURN");
             return;
         }
         movementInput = moveVector;
-        //Debug.Log($"MoveButtonPressed {movementInput}");
     }
 
     public void ShootButtonPressed(bool shootButtonState)
@@ -140,15 +138,8 @@ public class AssetController : MonoBehaviour
 
         if (keyPressOrRelease)
         {            
-
-            //if (dropWallWhileMoving)
-            //{
-            //    Debug.Log("WALL KEY Wall already being dropped, RETURN");
-            //    return;
-            //}
             if (weAreMoving)
             {
-                Debug.Log("WALL KEY Wall WE are moving, RETURN");
                 return;
             }
 
@@ -157,8 +148,6 @@ public class AssetController : MonoBehaviour
             movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;
             dropWallWhileMoving = true;
             previousAssetLocation = movePoint.position;
-
-            // Debug.Log($"movementInput calculated to be {movementInput}");
         }
         else
         {         
@@ -213,9 +202,6 @@ public class AssetController : MonoBehaviour
             }
             weAreMoving = false;
 
-            //if ((Mathf.Abs(horizontal) != 0 && Mathf.Abs(vertical) != 0))
-            //    Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
-
             if ((Mathf.Abs(horizontal) == 1 || Mathf.Abs(vertical) == 1))  // if we have some input
             {
                 // Get the requested Angle based on the Input just received
@@ -245,10 +231,6 @@ public class AssetController : MonoBehaviour
                 {
                     // lets just start the turn around instead of backing up
                     targetRotation *= Quaternion.AngleAxis(90, Vector3.forward);
-                    //  Beep beep beep - we are backing up
-                    //var potentialMovePoint = movePoint.position - transform.up * moveDistance;
-                    //if (!Physics2D.OverlapCircle(potentialMovePoint, 0.2f, whatStopsMovement))
-                    //    movePoint.position = potentialMovePoint;
                 }
                 else if (delta == 90 || delta == -270)  // rotate
                 {

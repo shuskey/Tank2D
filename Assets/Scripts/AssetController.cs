@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 
@@ -20,9 +22,14 @@ public class AssetController : MonoBehaviour
     [SerializeField] private GameObject myLittleLightGameObject;
     [SerializeField] private Transform movePoint;
     [SerializeField] private LayerMask whatStopsMovement;
+    [SerializeField] private GameObject wallPrefab;
 
     public UnityEvent<bool> OnShoot;
     public UnityEvent<bool> OnSelfdestruct;
+
+    private string gridLayerGroundOverlay = "Ground Overlay";
+    private string gridLayerInFrontOfPlayer = "In Front of Player";
+    private string gridLayerColliders = "Colliders";
 
     private Vector3 tankDirection = Vector3.up;
     private Quaternion targetRotation = Quaternion.identity;
@@ -31,6 +38,9 @@ public class AssetController : MonoBehaviour
     private bool iAmABaseOnlyMoveGunTurret = false;    
     private GameObject gunTurretGameObject;
     private int playerIndexThatIBelongTo;
+    private Vector3 previousAssetLocation;
+    private bool dropWallWhileMoving = false;
+    private bool weAreMoving = false;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +56,16 @@ public class AssetController : MonoBehaviour
 
         // Your target rotation start with your current orientation
         targetRotation = transform.localRotation;
+        previousAssetLocation = transform.position;
+    }
+        
+    private void DropWallAtLocation(Vector3 dropLocation)
+    {        
+        Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == gridLayerInFrontOfPlayer).FirstOrDefault();
+        var currentTileCellCoordinates = tilemap.WorldToCell(dropLocation);
+        tilemap.SetTile(currentTileCellCoordinates, null);  // delete anything OVER the player
+
+        var newInstantiatedGameObject = Instantiate(wallPrefab, dropLocation, Quaternion.identity);            
     }
 
     public void ListenForBaseCampDestruction(int playerIndex)
@@ -92,8 +112,15 @@ public class AssetController : MonoBehaviour
     }
 
     public void MoveButtonPressed(Vector2 moveVector)
-    {     
+    {
+
+        if (dropWallWhileMoving)
+        {
+            Debug.Log("MOVEMENT Wall already being dropped, RETURN");
+            return;
+        }
         movementInput = moveVector;
+        //Debug.Log($"MoveButtonPressed {movementInput}");
     }
 
     public void ShootButtonPressed(bool shootButtonState)
@@ -101,9 +128,56 @@ public class AssetController : MonoBehaviour
         OnShoot?.Invoke(shootButtonState);
     }
 
+    public void DropWallButtonPressed(bool keyPressOrRelease)
+    {
+        // try and move the tank forward (the direction it is currently pointed)
+        // If that works
+        // put a Wall in the space we were just in
+
+        // true: keyPress and not already dropping a wall
+        // false: keyRelease
+
+
+        if (keyPressOrRelease)
+        {            
+
+            //if (dropWallWhileMoving)
+            //{
+            //    Debug.Log("WALL KEY Wall already being dropped, RETURN");
+            //    return;
+            //}
+            if (weAreMoving)
+            {
+                Debug.Log("WALL KEY Wall WE are moving, RETURN");
+                return;
+            }
+
+            var angle = transform.localRotation.eulerAngles.z;
+
+            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;
+            dropWallWhileMoving = true;
+            previousAssetLocation = movePoint.position;
+
+            // Debug.Log($"movementInput calculated to be {movementInput}");
+        }
+        else
+        {         
+            movementInput = Vector2.zero;
+        }
+        
+    }
+
+    public void DropMineButtonPressed(bool keyPressOrRelease)
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
+        float horizontal;
+        float vertical;
+
         if (iAmABaseOnlyMoveGunTurret)
         {            
             if (movementInput != Vector2.zero)
@@ -120,13 +194,24 @@ public class AssetController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
-        var horizontal = removeDeadZone(movementInput.x); // Input.GetAxisRaw("Horizontal");
-        var vertical = removeDeadZone(movementInput.y); // Input.GetAxisRaw("Vertical");
-
         if (isLocationApproximatlyEqual(transform.position, movePoint.position) &&
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
         {
             startTracks(false);
+            if (dropWallWhileMoving && weAreMoving)
+            {
+                dropWallWhileMoving = false;
+                DropWallAtLocation(previousAssetLocation);
+                //Stop
+                horizontal = vertical = 0f;
+                movementInput = Vector2.zero;
+            }
+            else
+            {
+                horizontal = removeDeadZone(movementInput.x); // Input.GetAxisRaw("Horizontal");
+                vertical = removeDeadZone(movementInput.y); // Input.GetAxisRaw("Vertical");
+            }
+            weAreMoving = false;
 
             //if ((Mathf.Abs(horizontal) != 0 && Mathf.Abs(vertical) != 0))
             //    Debug.Log($"Input Movement = {horizontal} {vertical} {movementInput.x} {movementInput.y}");
@@ -148,8 +233,14 @@ public class AssetController : MonoBehaviour
                     (leftTrack is not null && rightTrack is not null))      // some assets have NO wheels/track so do not move them
                     {
                     var potentialMovePoint = movePoint.position + transform.up * moveDistance;
-                    if (!Physics2D.OverlapCircle(potentialMovePoint, 0.2f, whatStopsMovement))
+                    if (Physics2D.OverlapCircle(potentialMovePoint, 0.2f, whatStopsMovement))
+                    {
+                        dropWallWhileMoving = false;
+                        weAreMoving = false;
+                    } else {
                         movePoint.position = potentialMovePoint;
+                        weAreMoving = true;
+                    }
                 } else if (delta == 180 || delta == -180)  
                 {
                     // lets just start the turn around instead of backing up

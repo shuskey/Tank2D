@@ -56,25 +56,7 @@ public class BaseCampController : MonoBehaviour
     private void Start()
     {
         SelectThisAssetIndex(currentAssetBeingControlledIndex);
-    }
-
-    public void OnExitKeyPressed()
-    {
-        Debug.Log("Exit Key Pressed");
-        Application.Quit();
-    }
-
-    public void OnSelectNextAsset(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-            SelectNextActiveAsset(1);        
-    }
-
-    public void OnSelectPreviousAsset(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)       
-            SelectNextActiveAsset(-1);
-    }
+    }  
 
     private void SelectNextActiveAsset(int direction)
     {        
@@ -111,5 +93,34 @@ public class BaseCampController : MonoBehaviour
     public void OnShootButtonPressed(InputAction.CallbackContext context)
     {
         playerAssetControllerScipt[currentAssetBeingControlledIndex].ShootButtonPressed(context.action.triggered);
+    }
+
+    public void OnExitKeyPressed()
+    {
+        Debug.Log("Exit Key Pressed");
+        Application.Quit();
+    }
+
+    public void OnDropWallPressed(InputAction.CallbackContext context)
+    {
+        Debug.Log($"Context action triggered {context.action.triggered}");        
+        playerAssetControllerScipt[currentAssetBeingControlledIndex].DropWallButtonPressed(context.action.triggered);
+    }
+
+    public void OnDropMinePressed(InputAction.CallbackContext context)
+    {                  
+        playerAssetControllerScipt[currentAssetBeingControlledIndex].DropMineButtonPressed(context.action.triggered);
+    }
+
+    public void OnSelectNextAsset(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            SelectNextActiveAsset(1);
+    }
+
+    public void OnSelectPreviousAsset(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            SelectNextActiveAsset(-1);
     }
 }

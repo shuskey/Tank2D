@@ -168,6 +168,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5be3087b-63aa-4654-8093-08e47b41bb4d
     m_ActionName: Player/Exit[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f169a9a-68a5-4683-b996-da229095767c
+    m_ActionName: Player/DropWall[/Keyboard/w,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dd4db47e-0398-4627-9625-440c5fb67145
+    m_ActionName: Player/DropMine[/Keyboard/m,/XInputControllerWindows/buttonNorth]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
@@ -263,7 +271,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

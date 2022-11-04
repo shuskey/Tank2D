@@ -30,8 +30,12 @@ public class BaseCampController : MonoBehaviour
     private void Awake()
     {
         playerIndexThatOwnsThisBaseCamp = GetComponent<PlayerInput>().playerIndex;
-        assetFollowCamera = GetComponentInChildren<Camera>();             
+        assetFollowCamera = GetComponentInChildren<Camera>();
+        var maskNameToUse = (playerIndexThatOwnsThisBaseCamp == 0) ? "OnlyForPlayerOne" : "OnlyForPlayerTwo";
 
+        // Make camera so it only shows their own land mines and not the other players
+        assetFollowCamera.cullingMask |= (1 << LayerMask.NameToLayer(maskNameToUse));
+        
         int index = 0;
         foreach (var assetPrefab in (playerIndexThatOwnsThisBaseCamp == 0 ? player1AssetPrefabs: player2AssetPrefabs))
         {
@@ -103,7 +107,6 @@ public class BaseCampController : MonoBehaviour
 
     public void OnDropWallPressed(InputAction.CallbackContext context)
     {
-        //Debug.Log($"Context action triggered {context.action.triggered}");        
         playerAssetControllerScipt[currentAssetBeingControlledIndex].DropWallButtonPressed(context.action.triggered);
     }
 

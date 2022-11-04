@@ -23,6 +23,9 @@ public class AssetController : MonoBehaviour
     [SerializeField] private Transform movePoint;
     [SerializeField] private LayerMask whatStopsMovement;
     [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private GameObject minePrefab;
+
+    private GameObject thingToDropPrefab;
 
     public UnityEvent<bool> OnShoot;
     public UnityEvent<bool> OnSelfdestruct;
@@ -39,7 +42,7 @@ public class AssetController : MonoBehaviour
     private GameObject gunTurretGameObject;
     private int playerIndexThatIBelongTo;
     private Vector3 previousAssetLocation;
-    private bool dropWallWhileMoving = false;
+    private bool dropThingWhileMoving = false;
     private bool weAreMoving = false;
 
     // Start is called before the first frame update
@@ -59,13 +62,14 @@ public class AssetController : MonoBehaviour
         previousAssetLocation = transform.position;
     }
         
-    private void DropWallAtLocation(Vector3 dropLocation)
+    private void DropThingAtLocation(Vector3 dropLocation)
     {        
-        Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == gridLayerInFrontOfPlayer).FirstOrDefault();
+        Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().
+            Where<Tilemap>(i => i.name == gridLayerInFrontOfPlayer).FirstOrDefault();
         var currentTileCellCoordinates = tilemap.WorldToCell(dropLocation);
         tilemap.SetTile(currentTileCellCoordinates, null);  // delete anything OVER the player
 
-        var newInstantiatedGameObject = Instantiate(wallPrefab, dropLocation, Quaternion.identity);            
+        var newInstantiatedGameObject = Instantiate(thingToDropPrefab, dropLocation, Quaternion.identity);            
     }
 
     public void ListenForBaseCampDestruction(int playerIndex)
@@ -114,7 +118,7 @@ public class AssetController : MonoBehaviour
     public void MoveButtonPressed(Vector2 moveVector)
     {
 
-        if (dropWallWhileMoving)
+        if (dropThingWhileMoving)
         {
             return;
         }
@@ -139,14 +143,13 @@ public class AssetController : MonoBehaviour
         if (keyPressOrRelease)
         {            
             if (weAreMoving)
-            {
                 return;
-            }
 
             var angle = transform.localRotation.eulerAngles.z;
 
-            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;
-            dropWallWhileMoving = true;
+            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;            
+            thingToDropPrefab = wallPrefab;
+            dropThingWhileMoving = true;
             previousAssetLocation = movePoint.position;
         }
         else
@@ -158,6 +161,22 @@ public class AssetController : MonoBehaviour
 
     public void DropMineButtonPressed(bool keyPressOrRelease)
     {
+        if (keyPressOrRelease)
+        {
+            if (weAreMoving)         
+                return;
+         
+            var angle = transform.localRotation.eulerAngles.z;
+
+            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;            
+            thingToDropPrefab = minePrefab;
+            dropThingWhileMoving = true;
+            previousAssetLocation = movePoint.position;
+        }
+        else
+        {
+            movementInput = Vector2.zero;
+        }
 
     }
 
@@ -187,10 +206,10 @@ public class AssetController : MonoBehaviour
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
         {
             startTracks(false);
-            if (dropWallWhileMoving && weAreMoving)
+            if (dropThingWhileMoving && weAreMoving)
             {
-                dropWallWhileMoving = false;
-                DropWallAtLocation(previousAssetLocation);
+                dropThingWhileMoving = false;
+                DropThingAtLocation(previousAssetLocation);
                 //Stop
                 horizontal = vertical = 0f;
                 movementInput = Vector2.zero;
@@ -221,7 +240,7 @@ public class AssetController : MonoBehaviour
                     var potentialMovePoint = movePoint.position + transform.up * moveDistance;
                     if (Physics2D.OverlapCircle(potentialMovePoint, 0.2f, whatStopsMovement))
                     {
-                        dropWallWhileMoving = false;
+                        dropThingWhileMoving = false;
                         weAreMoving = false;
                     } else {
                         movePoint.position = potentialMovePoint;

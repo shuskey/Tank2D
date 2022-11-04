@@ -794,6 +794,10 @@ PrefabInstance:
       propertyPath: myCanvas
       value: 
       objectReference: {fileID: 5330174778846116738}
+    - target: {fileID: 1729483421580492556, guid: d4869302c0ceaff4b80553db1f0164c3, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 63
+      objectReference: {fileID: 0}
     - target: {fileID: 3845855351705369991, guid: d4869302c0ceaff4b80553db1f0164c3, type: 3}
       propertyPath: m_Name
       value: BaseCampAutoPopulate

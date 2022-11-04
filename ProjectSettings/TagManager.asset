@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ScreenActivation
   - GunTurret
+  - BaseCampAsset
   layers:
   - Default
   - TransparentFX
@@ -72,4 +73,10 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 1764508787
+    locked: 0
+  - name: OnlyForPlayerOne
+    uniqueID: 3047865407
+    locked: 0
+  - name: OnlyForPlayerTwo
+    uniqueID: 513819425
     locked: 0

@@ -12,10 +12,13 @@ public class BaseCampController : MonoBehaviour
     [SerializeField] private GameObject[] player1AssetPrefabs;
     [SerializeField] private GameObject[] player2AssetPrefabs;
     [SerializeField] private LayerMask whatStopsMovement;
+    [SerializeField] private int wallInventory = 10;
+    [SerializeField] private int mineInventory = 10;
 
     private GameObject[] playerAssetGameObjects = new GameObject[5];    
     private AssetController[] playerAssetControllerScipt = new AssetController[5];    
     private int playerIndexThatOwnsThisBaseCamp = 0;
+
     private const int worldUnitsPerGrid = 3;
 
     private int currentAssetBeingControlledIndex = 0;
@@ -49,7 +52,7 @@ public class BaseCampController : MonoBehaviour
             baseCampAssetGameObject.transform.rotation = Quaternion.AngleAxis(assetStartRotationAngles[index], Vector3.forward);
             playerAssetGameObjects[index] = newInstantiatedGameObject;
             playerAssetControllerScipt[index] = newInstantiatedGameObject.GetComponentInChildren<AssetController>();
-            playerAssetControllerScipt[index].ListenForBaseCampDestruction(playerIndexThatOwnsThisBaseCamp);
+            playerAssetControllerScipt[index].InitializeAssetForBaseCamp(playerIndexThatOwnsThisBaseCamp, wallInventory, mineInventory);
             index++;
         }
 

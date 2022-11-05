@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
-
+using Random = UnityEngine.Random;
 
 public class AssetController : MonoBehaviour
 {
@@ -27,8 +27,10 @@ public class AssetController : MonoBehaviour
     [SerializeField] private LayerMask playerTwoMine;
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject minePrefab;
+    [SerializeReference] private Tile oilDripTile;
 
-    private GameObject thingToDropPrefab;
+    private int wallInventoryForBaseCamp = 10;
+    private int mineInventoryForBaseCamp = 10;    
 
     public UnityEvent<bool> OnShoot;
     public UnityEvent<bool> OnSelfdestruct;
@@ -45,8 +47,16 @@ public class AssetController : MonoBehaviour
     private GameObject gunTurretGameObject;
     private int playerIndexThatIBelongTo;
     private Vector3 previousAssetLocation;
-    private bool dropThingWhileMoving = false;
+    private bool dropThingWhileMoving = false;    
+    private WhatToDrop whatToDrop = WhatToDrop.Nothing;
     private bool weAreMoving = false;
+
+    private enum WhatToDrop
+    {
+        Nothing,
+        Wall,
+        Mine
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -65,29 +75,51 @@ public class AssetController : MonoBehaviour
         previousAssetLocation = transform.position;
     }
         
+    private void OilDripsWhileMoving(Vector3 dripLocation)
+    {
+        //if (Random.value > 0.66f)  // 1/3rd the time
+        //{
+            Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == gridLayerGroundOverlay).FirstOrDefault();
+            var currentTileCellCoordinates = tilemap.WorldToCell(dripLocation);
+            tilemap.SetTile(currentTileCellCoordinates, oilDripTile);
+        //}
+    }
+
     private void DropThingAtLocation(Vector3 dropLocation)
-    {        
+    {
+        if (whatToDrop == WhatToDrop.Nothing)
+            return;
+
         Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().
             Where<Tilemap>(i => i.name == gridLayerInFrontOfPlayer).FirstOrDefault();
         var currentTileCellCoordinates = tilemap.WorldToCell(dropLocation);
-        tilemap.SetTile(currentTileCellCoordinates, null);  // delete anything OVER the player
+        tilemap.SetTile(currentTileCellCoordinates, null);  // delete anything OVER the player        
+        
+        if (whatToDrop == WhatToDrop.Wall)
+        {            
+            Instantiate(wallPrefab, dropLocation, Quaternion.identity);
 
-        var newInstantiatedGameObject = Instantiate(thingToDropPrefab, dropLocation, Quaternion.identity);            
+            if (thisIsMyPlayer(0))
+                EventManager.StartPlayerOneWallDeployedEvent();
+            else
+                EventManager.StartPlayerTwoWallDeployedEvent();
+        }
+        if (whatToDrop == WhatToDrop.Mine)
+        {
+            Instantiate(minePrefab, dropLocation, Quaternion.identity);
+
+            if (thisIsMyPlayer(0))
+                EventManager.StartPlayerOneMineDeployedEvent();
+            else
+                EventManager.StartPlayerTwoMineDeployedEvent();
+        }
     }
 
-    //private bool AreWeSittingOnALandMine(Vector3 sittingLocation)
-    //{
-    //    if (Physics2D.OverlapCircle(sittingLocation, 0.2f, playerOneMine) ||
-    //        Physics2D.OverlapCircle(sittingLocation, 0.2f, playerOneMine))
-    //    {
-    //        return true;
-    //    }
-    //    return false;
-    //}
-
-    public void ListenForBaseCampDestruction(int playerIndex)
+    public void InitializeAssetForBaseCamp(int playerIndex, int initialWallInventory, int initialMineInventory)
     {
         playerIndexThatIBelongTo = playerIndex;        
+        wallInventoryForBaseCamp = initialWallInventory;
+        mineInventoryForBaseCamp = initialMineInventory;
     }
 
     private void Awake()
@@ -95,32 +127,32 @@ public class AssetController : MonoBehaviour
         // Subscribe to Events
         EventManager.PlayerOneBaseCampDefeatedEvent += BaseCampOneDefeated;
         EventManager.PlayerTwoBaseCampDefeatedEvent += BaseCampTwoDefeated;
+        EventManager.PlayerOneWallDeployedEvent += PlayerOneWallDeployed;
+        EventManager.PlayerTwoWallDeployedEvent += PlayerTwoWallDeployed;
+        EventManager.PlayerOneMineDeployedEvent += PlayerOneMineDeployed;
+        EventManager.PlayerTwoMineDeployedEvent += PlayerTwoMineDeployed;
     }
 
     private void OnDestroy()
     {
         EventManager.PlayerOneBaseCampDefeatedEvent -= BaseCampOneDefeated;
         EventManager.PlayerTwoBaseCampDefeatedEvent -= BaseCampTwoDefeated;
-    }
-    private void BaseCampOneDefeated()
-    {
-        // If this was our Base Camp, then self distruct
-        SelfDestruct(0);
-    }
-
-    private void BaseCampTwoDefeated()
-    {
-        // If this was our Base Camp, then self distruct
-        SelfDestruct(1);
+        EventManager.PlayerOneWallDeployedEvent -= PlayerOneWallDeployed;
+        EventManager.PlayerTwoWallDeployedEvent -= PlayerTwoWallDeployed;
+        EventManager.PlayerOneMineDeployedEvent -= PlayerOneMineDeployed;
+        EventManager.PlayerTwoMineDeployedEvent -= PlayerTwoMineDeployed;
     }
 
-    private void SelfDestruct(int playerIndexThatWasDefeated)
-    {
-        if (playerIndexThatIBelongTo == playerIndexThatWasDefeated)
-        {
-            OnSelfdestruct?.Invoke(true);
-        }
-    }
+    private void BaseCampOneDefeated() => SelfDestruct(0);
+    private void BaseCampTwoDefeated() => SelfDestruct(1);
+    private void PlayerOneWallDeployed() => WallDecrement(0);
+    private void PlayerTwoWallDeployed() => WallDecrement(1);
+    private void PlayerOneMineDeployed() => MineDecrement(0);
+    private void PlayerTwoMineDeployed() => MineDecrement(1);
+    private void WallDecrement(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { wallInventoryForBaseCamp--; } }
+    private void MineDecrement(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { mineInventoryForBaseCamp--; } }
+    private void SelfDestruct(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { OnSelfdestruct?.Invoke(true); } }
+    private bool thisIsMyPlayer(int playerIndex) => (playerIndexThatIBelongTo == playerIndex);
 
     public void AssetRemoteControlEngaged(bool assetEngaged)
     {
@@ -130,67 +162,53 @@ public class AssetController : MonoBehaviour
 
     public void MoveButtonPressed(Vector2 moveVector)
     {
-
-        if (dropThingWhileMoving)
+        if (!dropThingWhileMoving)
         {
-            return;
+            movementInput = moveVector;
+            previousAssetLocation = movePoint.position;            
         }
-        movementInput = moveVector;
     }
 
-    public void ShootButtonPressed(bool shootButtonState)
-    {        
-        OnShoot?.Invoke(shootButtonState);
-    }
+    public void ShootButtonPressed(bool shootButtonState) => OnShoot?.Invoke(shootButtonState);
 
     public void DropWallButtonPressed(bool keyPressOrRelease)
     {
-        // try and move the tank forward (the direction it is currently pointed)
-        // If that works
-        // put a Wall in the space we were just in
-
-        // true: keyPress and not already dropping a wall
-        // false: keyRelease
-
-
-        if (keyPressOrRelease)
+        if (keyPressOrRelease && wallInventoryForBaseCamp > 0)
         {            
             if (weAreMoving)
                 return;
 
             var angle = transform.localRotation.eulerAngles.z;
 
-            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;            
-            thingToDropPrefab = wallPrefab;
+            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;
+            whatToDrop = WhatToDrop.Wall;
             dropThingWhileMoving = true;
-            previousAssetLocation = movePoint.position;
+            previousAssetLocation = movePoint.position;            
         }
         else
         {         
             movementInput = Vector2.zero;
-        }
-        
+        }        
     }
 
     public void DropMineButtonPressed(bool keyPressOrRelease)
     {
-        if (keyPressOrRelease)
+        if (keyPressOrRelease && mineInventoryForBaseCamp > 0)
         {
             if (weAreMoving)         
                 return;
          
             var angle = transform.localRotation.eulerAngles.z;
 
-            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;            
-            thingToDropPrefab = minePrefab;
+            movementInput = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.up;
+            whatToDrop = WhatToDrop.Mine;
             dropThingWhileMoving = true;
-            previousAssetLocation = movePoint.position;
+            previousAssetLocation = movePoint.position;            
         }
         else
         {
             movementInput = Vector2.zero;
         }
-
     }
 
     // Update is called once per frame
@@ -217,11 +235,12 @@ public class AssetController : MonoBehaviour
 
         if (isLocationApproximatlyEqual(transform.position, movePoint.position) &&
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
-        {
+        {            
+
             startTracks(false);
             if (dropThingWhileMoving && weAreMoving)
             {
-                dropThingWhileMoving = false;
+                dropThingWhileMoving = false;                
                 DropThingAtLocation(previousAssetLocation);
                 //Stop
                 horizontal = vertical = 0f;
@@ -233,13 +252,6 @@ public class AssetController : MonoBehaviour
                 vertical = removeDeadZone(movementInput.y); // Input.GetAxisRaw("Vertical");
             }
             weAreMoving = false;
-
-            //if (AreWeSittingOnALandMine(movePoint.position))
-            //{
-            //    var damagable = GetComponent<Damagable>();
-            //    if (damagable != null)
-            //        damagable.Hit(50);
-            //}
 
             if ((Mathf.Abs(horizontal) == 1 || Mathf.Abs(vertical) == 1))  // if we have some input
             {
@@ -263,6 +275,8 @@ public class AssetController : MonoBehaviour
                         dropThingWhileMoving = false;
                         weAreMoving = false;
                     } else {
+                        OilDripsWhileMoving(movePoint.position);
+
                         movePoint.position = potentialMovePoint;
                         weAreMoving = true;
                     }
@@ -285,9 +299,6 @@ public class AssetController : MonoBehaviour
             startTracks(true);
         }
     }
-
-    private bool isAngleApproximatlyEqual(float a1, float a2, float precision = 1.0f) =>
-    Mathf.Abs(a2 - a1) <= precision;
 
     private bool isRotationApproximatlyEqual(Quaternion q1, Quaternion q2, float precision = 0.0000004f) => 
         Mathf.Abs(Quaternion.Dot(q1, q2)) >= 1 - precision;

@@ -21,8 +21,6 @@ public class OilSpillOnTileMap : MonoBehaviour
 
         tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == groundOverlayTilemapName).FirstOrDefault();
         currentTileCellCoordinates = tilemap.WorldToCell(tankAssetTransform.position);
-        tilemap.SetTile(currentTileCellCoordinates, oilSpillTile);
-        
-        
+        tilemap.SetTile(currentTileCellCoordinates, oilSpillTile);                
     }
 }

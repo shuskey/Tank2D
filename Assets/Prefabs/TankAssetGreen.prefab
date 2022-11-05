@@ -133,6 +133,7 @@ MonoBehaviour:
     m_Bits: 128
   wallPrefab: {fileID: 2836434468052280538, guid: f4c046178f9887e4696ac436a0ee6fb2, type: 3}
   minePrefab: {fileID: 2836434468052280538, guid: dfa9fca25f737ef4e9aad3a2a4e04d7e, type: 3}
+  oilDripTile: {fileID: 11400000, guid: a6e5abd660f024540ab042c2382a02c7, type: 2}
   OnShoot:
     m_PersistentCalls:
       m_Calls:

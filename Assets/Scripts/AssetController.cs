@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using Unity.Burst;
@@ -22,6 +23,8 @@ public class AssetController : MonoBehaviour
     [SerializeField] private GameObject myLittleLightGameObject;
     [SerializeField] private Transform movePoint;
     [SerializeField] private LayerMask whatStopsMovement;
+    [SerializeField] private LayerMask playerOneMine;
+    [SerializeField] private LayerMask playerTwoMine;
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject minePrefab;
 
@@ -71,6 +74,16 @@ public class AssetController : MonoBehaviour
 
         var newInstantiatedGameObject = Instantiate(thingToDropPrefab, dropLocation, Quaternion.identity);            
     }
+
+    //private bool AreWeSittingOnALandMine(Vector3 sittingLocation)
+    //{
+    //    if (Physics2D.OverlapCircle(sittingLocation, 0.2f, playerOneMine) ||
+    //        Physics2D.OverlapCircle(sittingLocation, 0.2f, playerOneMine))
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     public void ListenForBaseCampDestruction(int playerIndex)
     {
@@ -220,6 +233,13 @@ public class AssetController : MonoBehaviour
                 vertical = removeDeadZone(movementInput.y); // Input.GetAxisRaw("Vertical");
             }
             weAreMoving = false;
+
+            //if (AreWeSittingOnALandMine(movePoint.position))
+            //{
+            //    var damagable = GetComponent<Damagable>();
+            //    if (damagable != null)
+            //        damagable.Hit(50);
+            //}
 
             if ((Mathf.Abs(horizontal) == 1 || Mathf.Abs(vertical) == 1))  // if we have some input
             {

@@ -125,6 +125,12 @@ MonoBehaviour:
   whatStopsMovement:
     serializedVersion: 2
     m_Bits: 8
+  playerOneMine:
+    serializedVersion: 2
+    m_Bits: 64
+  playerTwoMine:
+    serializedVersion: 2
+    m_Bits: 128
   wallPrefab: {fileID: 2836434468052280538, guid: f4c046178f9887e4696ac436a0ee6fb2, type: 3}
   minePrefab: {fileID: 2836434468052280538, guid: dfa9fca25f737ef4e9aad3a2a4e04d7e, type: 3}
   OnShoot:

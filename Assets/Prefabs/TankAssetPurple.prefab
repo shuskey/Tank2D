@@ -101,7 +101,7 @@ Transform:
   - {fileID: 6924191242370623196}
   - {fileID: 6262121642096946775}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7300019010205854477
 MonoBehaviour:
@@ -125,8 +125,14 @@ MonoBehaviour:
   whatStopsMovement:
     serializedVersion: 2
     m_Bits: 8
+  playerOneMine:
+    serializedVersion: 2
+    m_Bits: 64
+  playerTwoMine:
+    serializedVersion: 2
+    m_Bits: 128
   wallPrefab: {fileID: 2836434468052280538, guid: 181c86b1c84932347a93dd7a9414b9d8, type: 3}
-  minePrefab: {fileID: 2836434468052280538, guid: 525866f739eca5e4cb92bf5bf0827e17, type: 3}
+  minePrefab: {fileID: 2836434468052280538, guid: 4eceabd60e8da6444931334e95b69111, type: 3}
   OnShoot:
     m_PersistentCalls:
       m_Calls:

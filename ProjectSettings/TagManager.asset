@@ -14,8 +14,8 @@ TagManager:
   - Stops Movement
   - Water
   - UI
-  - 
-  - 
+  - OnlyForPlayerOne
+  - OnlyForPlayerTwo
   - 
   - 
   - 

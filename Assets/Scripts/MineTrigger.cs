@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ShellTrigger : MonoBehaviour
+public class MineTrigger : MonoBehaviour
 {
-    [SerializeField] private int damage = 5;
+    [SerializeField] private int damage = 30;    
+    
     public UnityEvent OnHit = new UnityEvent();
     private Rigidbody2D shellRigidbody2D;
 
@@ -16,7 +17,8 @@ public class ShellTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag != "LandMine")
+        // Only tanks, not shells
+        if (collision.tag == "BaseCampAsset")
         {
             OnHit?.Invoke();
 

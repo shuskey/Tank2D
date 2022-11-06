@@ -11,7 +11,6 @@ public class BaseCampController : MonoBehaviour
 {
     [SerializeField] private GameObject[] player1AssetPrefabs;
     [SerializeField] private GameObject[] player2AssetPrefabs;
-    [SerializeField] private LayerMask whatStopsMovement;
     [SerializeField] private int wallInventory = 10;
     [SerializeField] private int mineInventory = 10;
 
@@ -19,12 +18,9 @@ public class BaseCampController : MonoBehaviour
     private AssetController[] playerAssetControllerScipt = new AssetController[5];    
     private int playerIndexThatOwnsThisBaseCamp = 0;
 
-    private const int worldUnitsPerGrid = 3;
-
     private int currentAssetBeingControlledIndex = 0;
     private int assetBufferSize = 5;
 
-    private Vector2[] baseCampStartPositions = { new Vector2(-6, 3), new Vector2(55*3, -24) };
     private Vector2[] assetStartPositions = { Vector2.zero, Vector2.up * 3, Vector2.right * 3, Vector2.down * 3, Vector2.left * 3 };
     private float[] assetStartRotationAngles = { 0, 0, -90, 180, 90};
 
@@ -38,9 +34,8 @@ public class BaseCampController : MonoBehaviour
 
         // Make camera so it only shows their own land mines and not the other players
         assetFollowCamera.cullingMask |= (1 << LayerMask.NameToLayer(maskNameToUse));
-        
         int index = 0;
-        foreach (var assetPrefab in (playerIndexThatOwnsThisBaseCamp == 0 ? player1AssetPrefabs: player2AssetPrefabs))
+        foreach (var assetPrefab in (playerIndexThatOwnsThisBaseCamp == 0 ? player1AssetPrefabs : player2AssetPrefabs))
         {
             var newInstantiatedGameObject = Instantiate(assetPrefab,
                 (Vector3)assetStartPositions[index],
@@ -56,14 +51,17 @@ public class BaseCampController : MonoBehaviour
             index++;
         }
 
-        // Set BaseCamp position        
-        transform.position = BaseCampPlacement.GetRandomViableBasePosition(whatStopsMovement) * worldUnitsPerGrid;
+        // Set BaseCamp position
+        transform.position =
+            playerIndexThatOwnsThisBaseCamp == 0 ?
+            GridOverLordBattleFieldManager.GetPlayerOneBaseCampPosition() :
+            GridOverLordBattleFieldManager.GetPlayerTwoBaseCampPosition();
     }
 
     private void Start()
-    {
+        {
         SelectThisAssetIndex(currentAssetBeingControlledIndex);
-    }  
+    }
 
     private void SelectNextActiveAsset(int direction)
     {        

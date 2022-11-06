@@ -34,7 +34,7 @@ Transform:
   m_Children:
   - {fileID: 8951088103274161159}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2719156693910335854
 MonoBehaviour:
@@ -60,9 +60,13 @@ MonoBehaviour:
   - {fileID: 6434276238102491484, guid: f8c0e4dbb8698414e8e7947bfc02bcfe, type: 3}
   - {fileID: 6434276238102491484, guid: f8c0e4dbb8698414e8e7947bfc02bcfe, type: 3}
   - {fileID: 6434276238102491484, guid: f8c0e4dbb8698414e8e7947bfc02bcfe, type: 3}
-  whatStopsMovement:
-    serializedVersion: 2
+  layersToAvoidPlacingAssetsOn:
+  - serializedVersion: 2
+    m_Bits: 256
+  - serializedVersion: 2
     m_Bits: 8
+  wallInventory: 10
+  mineInventory: 10
 --- !u!114 &6115666839904802894
 MonoBehaviour:
   m_ObjectHideFlags: 0

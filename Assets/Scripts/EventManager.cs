@@ -15,7 +15,7 @@ public class EventManager : Singleton<EventManager>
     public static event Action PlayerTwoWallDeployedEvent;
     public static event Action PlayerOneMineDeployedEvent;
     public static event Action PlayerTwoMineDeployedEvent;
-
+   
     public static void StartPlayerOneWallDeployedEvent() => PlayerOneWallDeployedEvent?.Invoke();
     public static void StartPlayerTwoWallDeployedEvent() => PlayerTwoWallDeployedEvent?.Invoke();
     public static void StartPlayerOneMineDeployedEvent() => PlayerOneMineDeployedEvent?.Invoke();

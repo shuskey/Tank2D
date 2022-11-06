@@ -570,7 +570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4358889216969521156, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241432657424, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Name
@@ -578,7 +578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241432657424, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241432657437, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_RootOrder
@@ -626,39 +626,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241572728668, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241597085029, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241643812632, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191242370623197, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191242983054721, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191243144576945, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6924191243378972896, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7720255134612133268, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7832298646506576898, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

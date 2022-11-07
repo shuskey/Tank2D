@@ -11,6 +11,7 @@ public class BaseCampController : MonoBehaviour
 {
     [SerializeField] private GameObject[] player1AssetPrefabs;
     [SerializeField] private GameObject[] player2AssetPrefabs;
+    [SerializeField] private GameObject displayPanel;
     [SerializeField] private int wallInventory = 10;
     [SerializeField] private int mineInventory = 10;
 
@@ -59,8 +60,9 @@ public class BaseCampController : MonoBehaviour
     }
 
     private void Start()
-        {
+    {
         SelectThisAssetIndex(currentAssetBeingControlledIndex);
+        displayPanel.GetComponent<DisplayPanelUpdates>().InitializeDisplayPanel(wallInventory, mineInventory);
     }
 
     private void SelectNextActiveAsset(int direction)

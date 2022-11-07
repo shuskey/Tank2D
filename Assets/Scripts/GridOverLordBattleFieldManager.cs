@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class GridOverLordBattleFieldManager : Singleton<EventManager>
 {    
-    [SerializeField] private LayerMask[] layersToAvoidPlacingAssetsOn;
     private const int worldUnitsPerGrid = 3;
     private static Vector3 playerOneBaseCampPosition;
     private static Vector3 playerTwoBaseCampPosition;
 
-    private void Start()
+    public static void InitializeBaseCampPositions()
     {
-        var combinedMask = layersToAvoidPlacingAssetsOn[0] | layersToAvoidPlacingAssetsOn[1];
+        var combinedMask = LayerMask.NameToLayer("Stops Movement") | LayerMask.NameToLayer("InFrontOfPlayer");
         var gridPositionOne = BaseCampPlacement.GetRandomViableBasePosition(combinedMask);
         playerOneBaseCampPosition = gridPositionOne * worldUnitsPerGrid;
 

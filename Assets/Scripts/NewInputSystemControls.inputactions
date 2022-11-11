@@ -215,6 +215,17 @@
                 },
                 {
                     "name": "",
+                    "id": "22d74567-391f-4703-98ac-ec5bc988f3e0",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "28c0e6a8-a374-4f54-a849-80f7b1ce9a92",
                     "path": "<Keyboard>/w",
                     "interactions": "Press",

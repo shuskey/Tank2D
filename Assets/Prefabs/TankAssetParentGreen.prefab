@@ -587,6 +587,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7300019010205854477, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 9107277174328572038}
+    - target: {fileID: 7300019010205854477, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: minePrefab
       value: 
       objectReference: {fileID: 2836434468052280538, guid: dfa9fca25f737ef4e9aad3a2a4e04d7e, type: 3}

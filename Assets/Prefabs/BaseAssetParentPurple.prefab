@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 6342289821907664124}
   - component: {fileID: 5134747525778287512}
   - component: {fileID: 1665675942840722226}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: BaseCampCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -652,6 +652,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.632
       objectReference: {fileID: 0}
+    - target: {fileID: 7300019010205854477, guid: 6a0acb3c51f2dbe4782edcb5725b5db2, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 9107277174328572038}
+    - target: {fileID: 7300019010205854477, guid: 6a0acb3c51f2dbe4782edcb5725b5db2, type: 3}
+      propertyPath: baseCamera
+      value: 
+      objectReference: {fileID: 5134747525778287512}
     - target: {fileID: 7848463222583182335, guid: 6a0acb3c51f2dbe4782edcb5725b5db2, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.417

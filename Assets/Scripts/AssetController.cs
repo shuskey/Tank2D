@@ -10,6 +10,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
+using static GameManager;
 using Random = UnityEngine.Random;
 
 public class AssetController : MonoBehaviour
@@ -17,7 +18,8 @@ public class AssetController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5.0f;  // amount in a second
     [SerializeField] private float rotationSpeed = 360.0f;  // amount in a second
     [SerializeField] private float moveDistance = 3.0f;  // amount to move
-
+    [SerializeField] private Camera baseCamera;
+    [SerializeField] private GameObject healthBar;
     [SerializeField] private TrackController leftTrack;
     [SerializeField] private TrackController rightTrack;
     [SerializeField] private GameObject myLittleLightGameObject;
@@ -28,6 +30,8 @@ public class AssetController : MonoBehaviour
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject minePrefab;
     [SerializeReference] private Tile oilDripTile;
+
+    private bool gamePlayPaused = true;
 
     private int wallInventoryForBaseCamp = 10;
     private int mineInventoryForBaseCamp = 10;    
@@ -61,6 +65,14 @@ public class AssetController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (gamePlayPaused)
+        {
+            if (baseCamera != null)
+                baseCamera.enabled = false;
+            if (healthBar != null)
+                healthBar.SetActive(false);
+        }
+
         // Only search Children 
         gunTurretGameObject = new List<GameObject>
             (GameObject.FindGameObjectsWithTag("GunTurret")).
@@ -77,12 +89,9 @@ public class AssetController : MonoBehaviour
         
     private void OilDripsWhileMoving(Vector3 dripLocation)
     {
-        //if (Random.value > 0.66f)  // 1/3rd the time
-        //{
-            Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == gridLayerGroundOverlay).FirstOrDefault();
-            var currentTileCellCoordinates = tilemap.WorldToCell(dripLocation);
-            tilemap.SetTile(currentTileCellCoordinates, oilDripTile);
-        //}
+        Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == gridLayerGroundOverlay).FirstOrDefault();
+        var currentTileCellCoordinates = tilemap.WorldToCell(dripLocation);
+        tilemap.SetTile(currentTileCellCoordinates, oilDripTile);
     }
 
     private void DropThingAtLocation(Vector3 dropLocation)
@@ -131,6 +140,7 @@ public class AssetController : MonoBehaviour
         EventManager.PlayerTwoWallDeployedEvent += PlayerTwoWallDeployed;
         EventManager.PlayerOneMineDeployedEvent += PlayerOneMineDeployed;
         EventManager.PlayerTwoMineDeployedEvent += PlayerTwoMineDeployed;
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
 
     private void OnDestroy()
@@ -141,6 +151,7 @@ public class AssetController : MonoBehaviour
         EventManager.PlayerTwoWallDeployedEvent -= PlayerTwoWallDeployed;
         EventManager.PlayerOneMineDeployedEvent -= PlayerOneMineDeployed;
         EventManager.PlayerTwoMineDeployedEvent -= PlayerTwoMineDeployed;
+        GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
     }
 
     private void BaseCampOneDefeated() => SelfDestruct(0);
@@ -154,14 +165,27 @@ public class AssetController : MonoBehaviour
     private void SelfDestruct(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { OnSelfdestruct?.Invoke(true); } }
     private bool thisIsMyPlayer(int playerIndex) => (playerIndexThatIBelongTo == playerIndex);
 
+    private void GameManagerOnGameStateChanged(GameState state)
+    {
+        gamePlayPaused = state != GameState.Play;
+        if (baseCamera != null)
+            baseCamera.enabled = !gamePlayPaused;
+        if (healthBar != null)
+            healthBar.SetActive(!gamePlayPaused);
+    }
+
     public void AssetRemoteControlEngaged(bool assetEngaged)
     {
+        if (gamePlayPaused)
+            return;
         this.assetEngaged = assetEngaged;
         myLittleLightGameObject.SetActive(assetEngaged);
     }
 
     public void MoveButtonPressed(Vector2 moveVector)
     {
+        if (gamePlayPaused)
+            return;
         if (!dropThingWhileMoving)
         {
             movementInput = moveVector;
@@ -169,10 +193,17 @@ public class AssetController : MonoBehaviour
         }
     }
 
-    public void ShootButtonPressed(bool shootButtonState) => OnShoot?.Invoke(shootButtonState);
+    public void ShootButtonPressed(bool shootButtonState)
+    {
+        if (gamePlayPaused)
+            return;
+        OnShoot?.Invoke(shootButtonState);
+    }
 
     public void DropWallButtonPressed(bool keyPressOrRelease)
     {
+        if (gamePlayPaused)
+            return;
         if (keyPressOrRelease && wallInventoryForBaseCamp > 0)
         {            
             if (weAreMoving)
@@ -193,6 +224,8 @@ public class AssetController : MonoBehaviour
 
     public void DropMineButtonPressed(bool keyPressOrRelease)
     {
+        if (gamePlayPaused)
+            return;
         if (keyPressOrRelease && mineInventoryForBaseCamp > 0)
         {
             if (weAreMoving)         
@@ -214,6 +247,8 @@ public class AssetController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gamePlayPaused)
+            return;
         float horizontal;
         float vertical;
 

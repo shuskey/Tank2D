@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EventManager : Singleton<EventManager>
-{    
+{
+    public static event Action PlayerOneJoinedEvent;
+    public static event Action PlayerTwoJoinedEvent;
     public static event Action PlayerOneBaseCampDefeatedEvent;
     public static event Action PlayerTwoBaseCampDefeatedEvent;
     public static event Action PlayerOneTankDefeatedEvent;
@@ -15,7 +17,9 @@ public class EventManager : Singleton<EventManager>
     public static event Action PlayerTwoWallDeployedEvent;
     public static event Action PlayerOneMineDeployedEvent;
     public static event Action PlayerTwoMineDeployedEvent;
-   
+
+    public static void StartPlayerOneJoinedEvent() => PlayerOneJoinedEvent?.Invoke();
+    public static void StartPlayerTwoJoinedEvent() => PlayerTwoJoinedEvent?.Invoke();
     public static void StartPlayerOneWallDeployedEvent() => PlayerOneWallDeployedEvent?.Invoke();
     public static void StartPlayerTwoWallDeployedEvent() => PlayerTwoWallDeployedEvent?.Invoke();
     public static void StartPlayerOneMineDeployedEvent() => PlayerOneMineDeployedEvent?.Invoke();

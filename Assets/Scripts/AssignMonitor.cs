@@ -25,11 +25,9 @@ public class AssignMonitor : MonoBehaviour
             }
 
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (playerIndex == 0)
+            EventManager.StartPlayerOneJoinedEvent();
+        if (playerIndex == 1)
+            EventManager.StartPlayerTwoJoinedEvent();                    
     }
 }

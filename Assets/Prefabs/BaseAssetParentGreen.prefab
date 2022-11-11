@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 61372680899441378}
   - component: {fileID: 1002709235102270755}
   - component: {fileID: 5448747937499191122}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthFillPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 6342289821907664124}
   - component: {fileID: 5134747525778287512}
   - component: {fileID: 1665675942840722226}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BaseCampCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 3930846469402808077}
   - component: {fileID: 7996414835383181827}
   - component: {fileID: 6097638718451758498}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 5316907002450282676}
   - component: {fileID: 4328415558492837348}
   - component: {fileID: 8745119148496476397}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 3088954610825659023}
   - component: {fileID: 5775523164981733939}
   - component: {fileID: 3142895760703862028}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -652,6 +652,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7300019010205854477, guid: 412199214d55bfb448d470870d664292, type: 3}
+      propertyPath: baseCamera
+      value: 
+      objectReference: {fileID: 5134747525778287512}
     - target: {fileID: 7720255134612133268, guid: 412199214d55bfb448d470870d664292, type: 3}
       propertyPath: m_Layer
       value: 3

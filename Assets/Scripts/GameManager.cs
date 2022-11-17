@@ -8,10 +8,11 @@ public class GameManager : Singleton<GameManager>
     public static GameState State;
     public static event Action<GameState> OnGameStateChanged;
 
+
     // Start is called before the first frame update
     void Start()
     {
-        UpdateGameState(GameState.Welcome);
+        UpdateGameState(GameState.WaitingToJoin);
     }
 
     public static void OnPlay()
@@ -21,7 +22,7 @@ public class GameManager : Singleton<GameManager>
 
     public static void OnWelcome()
     {
-        UpdateGameState(GameState.Welcome);
+        UpdateGameState(GameState.WaitingToJoin);
     }
 
     public static void OnSettings()
@@ -43,13 +44,28 @@ public class GameManager : Singleton<GameManager>
     {
         if (State == GameState.Play)
         {
-            UpdateGameState(GameState.Welcome);
-        }
-        else
+            UpdateGameState(GameState.WaitingToJoin);
+        } else
         {
-            if (State == GameState.Information ||
-                State == GameState.Settings)
-                UpdateGameState(GameState.Welcome);
+            Debug.Log("** Application Quit being called **");
+            Application.Quit();
+        }
+    }
+
+    public static void OnScoreBoard()
+    {
+        UpdateGameState(GameState.ScoreBoard);
+    }
+
+    public static void OnOkContinue()
+    {
+        if (State == GameState.WaitingToJoin)
+        {
+            UpdateGameState(GameState.Play);
+        }
+        if (State == GameState.ScoreBoard)
+        {
+            UpdateGameState(GameState.Play);
         }
     }
 
@@ -60,11 +76,11 @@ public class GameManager : Singleton<GameManager>
 
         switch (newState)
         {
-            case GameState.Welcome:
+            case GameState.WaitingToJoin:
                 // MenuManager is subscribed to this
                 break;
             case GameState.Play:
-                // PoolTableManager is subscribed to this
+
                 break;
             case GameState.Victory:
                 if (State == GameState.Failure || State == GameState.Victory)
@@ -95,7 +111,9 @@ public class GameManager : Singleton<GameManager>
 
     public enum GameState
     {
-        Welcome,
+        WaitingToJoin,
+        PlayPaused,
+        ScoreBoard,
         Settings,
         Information,        
         Play,

@@ -78,6 +78,12 @@ public class DisplayPanelUpdates : MonoBehaviour
     {
         wallCount = wallInventory;
         mineCount = mineInventory;
+        playerOneTankCount = 4;
+        playerTwoTankCount = 4;
+        topDisplayText.text = playerIndex == 0 ?
+            "Welcome Team Purple Perfect !" :
+            "Welcome Green Team of Awesomeness !";
+        UpdateDisplayStatus();
     }
 
     private void PlayerOneTankDefeated()
@@ -148,11 +154,17 @@ public class DisplayPanelUpdates : MonoBehaviour
         myTankIcon3GoesHere.sprite = (myTankCount < 2) ? myTankExplodedIcon : myTankIcon;
         myTankIcon4GoesHere.sprite = (myTankCount < 1) ? myTankExplodedIcon : myTankIcon;
 
+        mineCountText.text = mineCount.ToString();
+        wallCountText.text = wallCount.ToString();
+
+
         if (playerOneTankCount == 0)
             EventManager.StartCelebratePlayerOneDefeatedEvent();
         if (playerTwoTankCount == 0)
             EventManager.StartCelebratePlayerTwoDefeatedEvent();
     }
+
+
 
     private void ShowPlayerOneDefeated()
     {

@@ -39,15 +39,15 @@ public class Window_Confetti : MonoBehaviour {
     }
 
     private void ShowPlayerOneDefeated()
-    {
-      //  Debug.Log($"ShowerOn: {showerOn}  ShowPlayer ONE Defeated called: DiaplyIndex {myCanvas.targetDisplay}");
+    {      
         ShowDefeatedVictoryStatus(0);
+        Debug.Log("Player One Defeated");
     }
 
     private void ShowPlayerTwoDefeated()
-    {
-      //  Debug.Log($"ShowerOn: {showerOn}  ShowPlayer TWO Defeated called: DisplayIndex {myCanvas.targetDisplay}");
+    {     
         ShowDefeatedVictoryStatus(1);
+        Debug.Log("Player Two Defeated");
     }
 
     private void ShowDefeatedVictoryStatus(int playerIndexThatWasDefeated)
@@ -108,6 +108,10 @@ public class Window_Confetti : MonoBehaviour {
             else
             {
                 showerOn = false;
+                Debug.Log("The Shower is over");
+                if (!showerDirectionDownForTheWin)
+                    GridOverLordBattleFieldManager.InitializeBaseCampPositions();
+                GameManager.OnScoreBoard();
             }
  
         }

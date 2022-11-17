@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using static GameManager;
 
 public class BaseCampController : MonoBehaviour
 {
@@ -27,41 +29,111 @@ public class BaseCampController : MonoBehaviour
 
     private Camera assetFollowCamera;
 
+    private GameState previousGameState = GameState.WaitingToJoin;
+    private bool gamePlayPaused = true;
+
     private void Awake()
     {
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+
         playerIndexThatOwnsThisBaseCamp = GetComponent<PlayerInput>().playerIndex;
         assetFollowCamera = GetComponentInChildren<Camera>();
         var maskNameToUse = (playerIndexThatOwnsThisBaseCamp == 0) ? "OnlyForPlayerOne" : "OnlyForPlayerTwo";
 
         // Make camera so it only shows their own land mines and not the other players
         assetFollowCamera.cullingMask |= (1 << LayerMask.NameToLayer(maskNameToUse));
-        int index = 0;
-        foreach (var assetPrefab in (playerIndexThatOwnsThisBaseCamp == 0 ? player1AssetPrefabs : player2AssetPrefabs))
-        {
-            var newInstantiatedGameObject = Instantiate(assetPrefab,
-                (Vector3)assetStartPositions[index],
-                Quaternion.identity,
-                gameObject.transform);
-            var baseCampAssetGameObject = new List<GameObject>
-                (GameObject.FindGameObjectsWithTag("BaseCampAsset")).
-                Find(g => g.transform.IsChildOf(newInstantiatedGameObject.transform));
-            baseCampAssetGameObject.transform.rotation = Quaternion.AngleAxis(assetStartRotationAngles[index], Vector3.forward);
-            playerAssetGameObjects[index] = newInstantiatedGameObject;
-            playerAssetControllerScipt[index] = newInstantiatedGameObject.GetComponentInChildren<AssetController>();
-            playerAssetControllerScipt[index].InitializeAssetForBaseCamp(playerIndexThatOwnsThisBaseCamp, wallInventory, mineInventory);
-            index++;
-        }
+
+        InstantiateListOfBaseCampPrefabs(playerIndexThatOwnsThisBaseCamp == 0 ? player1AssetPrefabs : player2AssetPrefabs);
 
         // Set BaseCamp position
         transform.position =
             playerIndexThatOwnsThisBaseCamp == 0 ?
             GridOverLordBattleFieldManager.GetPlayerOneBaseCampPosition() :
             GridOverLordBattleFieldManager.GetPlayerTwoBaseCampPosition();
+
+        if (playerIndexThatOwnsThisBaseCamp == 0)
+            EventManager.StartPlayerOneJoinedEvent();
+        if (playerIndexThatOwnsThisBaseCamp == 1)
+            EventManager.StartPlayerTwoJoinedEvent();
+    }
+
+    private void InstantiateListOfBaseCampPrefabs(GameObject[] arrayOfBaseCampPrefabs)
+    {
+        int index = 0;
+        foreach (var assetPrefab in arrayOfBaseCampPrefabs)
+        {
+            var newInstantiatedGameObject = InstantiateAndPositionBaseCampAsset(assetPrefab, index);
+            playerAssetGameObjects[index] = newInstantiatedGameObject;
+            playerAssetControllerScipt[index] = newInstantiatedGameObject.GetComponentInChildren<AssetController>();
+            playerAssetControllerScipt[index].InitializeAssetForBaseCamp(playerIndexThatOwnsThisBaseCamp, wallInventory, mineInventory);
+            index++;
+        }
+
+        if (playerIndexThatOwnsThisBaseCamp == 1)
+        {
+            // Follow camera and map camera that is in BaseAsset
+            var allCameras = GetComponentsInChildren<Camera>();
+            foreach (var cam in allCameras)
+            {
+                cam.targetDisplay = 1;
+            }
+
+            var allCanvas = GetComponentsInChildren<Canvas>();
+            foreach (var canvas in allCanvas)
+            {
+                canvas.targetDisplay = 1;
+            }
+        }
+    }
+
+    private GameObject InstantiateAndPositionBaseCampAsset(GameObject assetPrefab, int assetIndex)
+    {
+        var newInstantiatedGameObject = Instantiate(assetPrefab,
+                (Vector3)assetStartPositions[assetIndex],
+                Quaternion.identity,
+                gameObject.transform);
+        var baseCampAssetGameObject = new List<GameObject>
+            (GameObject.FindGameObjectsWithTag("BaseCampAsset")).
+            Find(g => g.transform.IsChildOf(newInstantiatedGameObject.transform));
+        baseCampAssetGameObject.transform.rotation = Quaternion.AngleAxis(assetStartRotationAngles[assetIndex], Vector3.forward);
+        return newInstantiatedGameObject;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
     }
 
     private void Start()
     {
+        currentAssetBeingControlledIndex = 0;
         SelectThisAssetIndex(currentAssetBeingControlledIndex);
+        displayPanel.GetComponent<DisplayPanelUpdates>().InitializeDisplayPanel(wallInventory, mineInventory);        
+    }
+
+    public void StartNewBattle()
+    {
+        wallInventory = 10;
+        mineInventory = 10;
+
+        int index = 0;
+        foreach (var baseCampAssetGameObject in playerAssetGameObjects)
+        {            
+            Destroy(baseCampAssetGameObject);
+            index++;
+        }
+
+        transform.position = Vector3.zero;
+
+        InstantiateListOfBaseCampPrefabs(playerIndexThatOwnsThisBaseCamp == 0 ? player1AssetPrefabs : player2AssetPrefabs);
+
+        // Set BaseCamp position
+        transform.position =
+            playerIndexThatOwnsThisBaseCamp == 0 ?
+            GridOverLordBattleFieldManager.GetPlayerOneBaseCampPosition() :
+            GridOverLordBattleFieldManager.GetPlayerTwoBaseCampPosition();
+
+        SelectThisAssetIndex(0);
         displayPanel.GetComponent<DisplayPanelUpdates>().InitializeDisplayPanel(wallInventory, mineInventory);
     }
 
@@ -84,7 +156,12 @@ public class BaseCampController : MonoBehaviour
     private void SelectThisAssetIndex(int newAssetIndex)
     {
         // Unselect previous Asset
-        playerAssetControllerScipt[currentAssetBeingControlledIndex].AssetRemoteControlEngaged(false);
+        playerAssetControllerScipt[0].AssetRemoteControlEngaged(false);
+        playerAssetControllerScipt[1].AssetRemoteControlEngaged(false);
+        playerAssetControllerScipt[2].AssetRemoteControlEngaged(false);
+        playerAssetControllerScipt[3].AssetRemoteControlEngaged(false);
+        playerAssetControllerScipt[4].AssetRemoteControlEngaged(false);
+                
         currentAssetBeingControlledIndex = newAssetIndex;
         // Select new Asset
         playerAssetControllerScipt[currentAssetBeingControlledIndex].AssetRemoteControlEngaged(true);
@@ -94,39 +171,73 @@ public class BaseCampController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (gamePlayPaused)
+            return;
         playerAssetControllerScipt[currentAssetBeingControlledIndex].MoveButtonPressed(context.ReadValue<Vector2>());
     }
 
     public void OnShootButtonPressed(InputAction.CallbackContext context)
     {
+        if (gamePlayPaused)
+            return;
         playerAssetControllerScipt[currentAssetBeingControlledIndex].ShootButtonPressed(context.action.triggered);
     }
 
-    public void OnExitKeyPressed()
+    public void OnBackExitKeyPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("Exit Key Pressed");
-        Application.Quit();
+        if (context.action.triggered)
+        {
+            Debug.Log("Back Button Pressed");
+            GameManager.OnBackArrow();
+        }
+    }
+
+    public void OnOkContinueKeyPressed(InputAction.CallbackContext context)
+    {
+        if (!gamePlayPaused)
+            return;
+        if (context.action.triggered)
+        {
+            Debug.Log("Next Button Pressed");
+            GameManager.OnOkContinue();
+        }
     }
 
     public void OnDropWallPressed(InputAction.CallbackContext context)
     {
+        if (gamePlayPaused)
+            return;
         playerAssetControllerScipt[currentAssetBeingControlledIndex].DropWallButtonPressed(context.action.triggered);
     }
 
     public void OnDropMinePressed(InputAction.CallbackContext context)
-    {                  
+    {
+        if (gamePlayPaused)
+            return;
         playerAssetControllerScipt[currentAssetBeingControlledIndex].DropMineButtonPressed(context.action.triggered);
     }
 
     public void OnSelectNextAsset(InputAction.CallbackContext context)
     {
+        if (gamePlayPaused)
+            return;
         if (context.phase == InputActionPhase.Performed)
             SelectNextActiveAsset(1);
     }
 
     public void OnSelectPreviousAsset(InputAction.CallbackContext context)
     {
+        if (gamePlayPaused)
+            return;
         if (context.phase == InputActionPhase.Performed)
             SelectNextActiveAsset(-1);
     }
-}
+
+    private void GameManagerOnGameStateChanged(GameState state)
+    {
+        gamePlayPaused = state != GameState.Play;
+        if ((previousGameState == GameState.ScoreBoard) && (state == GameState.Play))
+            StartNewBattle();
+        previousGameState = state;  
+    }
+ }

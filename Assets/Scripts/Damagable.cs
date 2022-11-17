@@ -29,6 +29,11 @@ public class Damagable : MonoBehaviour
         Health = MaxHealth;
     }
 
+    public void RestoreAllHealth()
+    {
+        Health = MaxHealth;
+    }
+
     internal void Hit(int damagePoints)
     {
         Health -= damagePoints;

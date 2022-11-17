@@ -17,5 +17,6 @@ public class GridOverLordBattleFieldManager : Singleton<EventManager>
     }
 
     public static Vector3 GetPlayerOneBaseCampPosition() => playerOneBaseCampPosition;
+
     public static Vector3 GetPlayerTwoBaseCampPosition() => playerTwoBaseCampPosition;
 }

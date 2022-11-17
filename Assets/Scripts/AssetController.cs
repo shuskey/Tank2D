@@ -31,7 +31,7 @@ public class AssetController : MonoBehaviour
     [SerializeField] private GameObject minePrefab;
     [SerializeReference] private Tile oilDripTile;
 
-    private bool gamePlayPaused = true;
+    private bool gamePlayPaused = false;
 
     private int wallInventoryForBaseCamp = 10;
     private int mineInventoryForBaseCamp = 10;    
@@ -65,6 +65,11 @@ public class AssetController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartUpAsset();
+    }
+
+    public void StartUpAsset()
+    {
         if (gamePlayPaused)
         {
             if (baseCamera != null)
@@ -76,15 +81,19 @@ public class AssetController : MonoBehaviour
         // Only search Children 
         gunTurretGameObject = new List<GameObject>
             (GameObject.FindGameObjectsWithTag("GunTurret")).
-            Find(g => g.transform.IsChildOf(this.transform));        
+            Find(g => g.transform.IsChildOf(this.transform));
         iAmABaseOnlyMoveGunTurret = gunTurretGameObject == null ? false : true;
-
-        movePoint.parent = null;
-        myLittleLightGameObject.SetActive(false);
+        movePoint.parent = null;        
 
         // Your target rotation start with your current orientation
         targetRotation = transform.localRotation;
         previousAssetLocation = transform.position;
+    }
+
+    public void ReAttachMovePoint()
+    {
+        movePoint.parent = gameObject.transform;
+        movePoint.transform.localPosition = Vector3.zero;
     }
         
     private void OilDripsWhileMoving(Vector3 dripLocation)
@@ -129,6 +138,9 @@ public class AssetController : MonoBehaviour
         playerIndexThatIBelongTo = playerIndex;        
         wallInventoryForBaseCamp = initialWallInventory;
         mineInventoryForBaseCamp = initialMineInventory;
+        gameObject.GetComponentInChildren<Damagable>().RestoreAllHealth();
+        gameObject.transform.parent.gameObject.SetActive(true);  // Revive
+        movePoint.position = gameObject.transform.position;       
     }
 
     private void Awake()
@@ -141,6 +153,9 @@ public class AssetController : MonoBehaviour
         EventManager.PlayerOneMineDeployedEvent += PlayerOneMineDeployed;
         EventManager.PlayerTwoMineDeployedEvent += PlayerTwoMineDeployed;
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+
+        myLittleLightGameObject.SetActive(false);
+
     }
 
     private void OnDestroy()
@@ -152,6 +167,9 @@ public class AssetController : MonoBehaviour
         EventManager.PlayerOneMineDeployedEvent -= PlayerOneMineDeployed;
         EventManager.PlayerTwoMineDeployedEvent -= PlayerTwoMineDeployed;
         GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+
+        if (movePoint != null)
+            Destroy(movePoint.gameObject);
     }
 
     private void BaseCampOneDefeated() => SelfDestruct(0);
@@ -176,8 +194,6 @@ public class AssetController : MonoBehaviour
 
     public void AssetRemoteControlEngaged(bool assetEngaged)
     {
-        if (gamePlayPaused)
-            return;
         this.assetEngaged = assetEngaged;
         myLittleLightGameObject.SetActive(assetEngaged);
     }

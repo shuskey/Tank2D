@@ -29,7 +29,7 @@ public class AssetController : MonoBehaviour
     [SerializeField] private LayerMask playerTwoMine;
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject minePrefab;
-    [SerializeReference] private Tile oilDripTile;
+    [SerializeField] private Tile oilDripTile;
 
     private bool gamePlayPaused = false;
 

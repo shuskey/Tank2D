@@ -108,10 +108,17 @@ public class Window_Confetti : MonoBehaviour {
             else
             {
                 showerOn = false;
-                Debug.Log("The Shower is over");
+                //Debug.Log("The Shower is over");
                 if (!showerDirectionDownForTheWin)
-                    GridOverLordBattleFieldManager.InitializeBaseCampPositions();
-                GameManager.OnScoreBoard();
+                {
+                    GridOverLordBattleFieldManager.InitializeBaseCampPositions();                    
+                }
+
+                if (showerDirectionDownForTheWin && myCanvas.worldCamera.targetDisplay == 0)
+                    GameManager.OnPlayerOneVictory();
+
+                if (showerDirectionDownForTheWin && myCanvas.worldCamera.targetDisplay == 1)
+                    GameManager.OnPlayerTwoVictory();
             }
  
         }

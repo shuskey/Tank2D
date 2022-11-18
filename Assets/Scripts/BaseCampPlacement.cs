@@ -8,7 +8,17 @@ public static class BaseCampPlacement
     private const int worldUnitsPerGrid = 3;
     // inspect your current grid divide by 3 to get to Grid Coordinates
     private static readonly Vector2 minimumGridPosition = new Vector2(-23, -13);
-    private static readonly Vector2 maximumGridPosition = new Vector2(56, 30);   
+    private static readonly Vector2 maximumGridPosition = new Vector2(56, 30);
+
+    public static Vector2 GetMinimumGripPosition()
+    {
+        return minimumGridPosition;
+    }
+
+    public static Vector2 GetMaximumGripPosition()
+    {
+        return maximumGridPosition;
+    }
 
     public static Vector2 GetRandomViableBasePosition(LayerMask layersToAvoid)
     {

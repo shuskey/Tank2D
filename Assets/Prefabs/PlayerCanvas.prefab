@@ -95,7 +95,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 1
+  m_ChildAlignment: 7
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 3693351158934874171}
   - component: {fileID: 7290119053779141330}
   - component: {fileID: 2482356218070285137}
+  - component: {fileID: 7625642577403248152}
   m_Layer: 12
   m_Name: ScoreBoard
   m_TagString: Untagged
@@ -395,6 +396,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7625642577403248152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751983190477360750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5f63c5dcd9da24e8bc4fad1bd91ee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myScoreText: {fileID: 1674160311992757564}
+  enemyScoreText: {fileID: 7139569917468478569}
+  myTankSpritePanel: {fileID: 3282642531782765102}
+  ememyTankSpritePanel: {fileID: 6594579254077350210}
+  purpleTankSprite: {fileID: 21300000, guid: 6650825f7a0f3604c8dab45bbf44e21c, type: 3}
+  greenTankSprite: {fileID: 21300000, guid: 27405f3953f653f448d2dc540d11acff, type: 3}
 --- !u!1 &778222155717442206
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -50}
+  m_AnchoredPosition: {x: 400.00003, y: -72.81464}
   m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2600569677028777422
@@ -707,7 +726,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1112,7 +1131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 125, y: -82.80684}
+  m_AnchoredPosition: {x: 125.00003, y: -99.46782}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3775533136582765470
@@ -1432,7 +1451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 575, y: -82.80684}
+  m_AnchoredPosition: {x: 575, y: -99.46782}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5638246824909660251
@@ -1689,7 +1708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -82.80684}
+  m_AnchoredPosition: {x: 75.00003, y: -99.46782}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4976290176462542425
@@ -2893,7 +2912,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 775, y: -82.80684}
+  m_AnchoredPosition: {x: 775, y: -99.46782}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1324804054874140603
@@ -3320,7 +3339,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -82.80684}
+  m_AnchoredPosition: {x: 400.00003, y: -99.46782}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1160689235605061224
@@ -4004,6 +4023,18 @@ PrefabInstance:
       propertyPath: displayPanel
       value: 
       objectReference: {fileID: 4178271741439502953}
+    - target: {fileID: 2719156693910335854, guid: d4869302c0ceaff4b80553db1f0164c3, type: 3}
+      propertyPath: greenOilDrip
+      value: 
+      objectReference: {fileID: 11400000, guid: a6e5abd660f024540ab042c2382a02c7, type: 2}
+    - target: {fileID: 2719156693910335854, guid: d4869302c0ceaff4b80553db1f0164c3, type: 3}
+      propertyPath: purpleOilDrip
+      value: 
+      objectReference: {fileID: 11400000, guid: bd4dbbc85b11e7047aa1bb9e86e6dafd, type: 2}
+    - target: {fileID: 2719156693910335854, guid: d4869302c0ceaff4b80553db1f0164c3, type: 3}
+      propertyPath: neutralOilDrip
+      value: 
+      objectReference: {fileID: 11400000, guid: d4a061604ab36964abb70924104b11ae, type: 2}
     - target: {fileID: 3845855351705369991, guid: d4869302c0ceaff4b80553db1f0164c3, type: 3}
       propertyPath: m_Name
       value: BaseCampAutoPopulate

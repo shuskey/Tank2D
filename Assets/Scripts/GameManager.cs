@@ -7,17 +7,32 @@ public class GameManager : Singleton<GameManager>
 {
     public static GameState State;
     public static event Action<GameState> OnGameStateChanged;
+    public static int playerOneScore = 0;
+    public static int playerTwoScore = 0;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        playerOneScore = playerTwoScore = 0;
         UpdateGameState(GameState.WaitingToJoin);
     }
 
     public static void OnPlay()
     {
         UpdateGameState(GameState.Play);
+    }
+
+    public static void OnPlayerOneVictory()
+    {
+        playerOneScore++;
+        UpdateGameState(GameState.ScoreBoard);
+    }
+
+    public static void OnPlayerTwoVictory()
+    {
+        playerTwoScore++;
+        UpdateGameState(GameState.ScoreBoard);
     }
 
     public static void OnWelcome()
@@ -65,7 +80,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (State == GameState.ScoreBoard)
         {
-            UpdateGameState(GameState.Play);
+            UpdateGameState(GameState.Play);            
         }
     }
 
@@ -76,20 +91,13 @@ public class GameManager : Singleton<GameManager>
 
         switch (newState)
         {
-            case GameState.WaitingToJoin:
-                // MenuManager is subscribed to this
+            case GameState.WaitingToJoin:                           
                 break;
             case GameState.Play:
-
                 break;
-            case GameState.Victory:
-                if (State == GameState.Failure || State == GameState.Victory)
-                    return;
-                // Window_Confetti is subscribed to this
+            case GameState.PlayerOneVictory:                                
                 break;
-            case GameState.Failure:
-                if (State == GameState.Failure || State == GameState.Victory)
-                    return;
+            case GameState.PlayerTwoVictory:                                    
                 break;
             case GameState.Quit:
                 Debug.Log("Quit Game Requested");
@@ -117,8 +125,8 @@ public class GameManager : Singleton<GameManager>
         Settings,
         Information,        
         Play,
-        Victory,        
-        Failure, 
+        PlayerOneVictory,        
+        PlayerTwoVictory, 
         Quit
     }
 }

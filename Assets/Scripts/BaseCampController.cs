@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using static GameManager;
 
@@ -16,6 +18,9 @@ public class BaseCampController : MonoBehaviour
     [SerializeField] private GameObject displayPanel;
     [SerializeField] private int wallInventory = 10;
     [SerializeField] private int mineInventory = 10;
+    [SerializeField] private Tile purpleOilDrip;
+    [SerializeField] private Tile greenOilDrip;
+    [SerializeField] private Tile neutralOilDrip;
 
     private GameObject[] playerAssetGameObjects = new GameObject[5];    
     private AssetController[] playerAssetControllerScipt = new AssetController[5];    
@@ -135,6 +140,10 @@ public class BaseCampController : MonoBehaviour
 
         SelectThisAssetIndex(0);
         displayPanel.GetComponent<DisplayPanelUpdates>().InitializeDisplayPanel(wallInventory, mineInventory);
+
+        if (playerIndexThatOwnsThisBaseCamp == 1)   // just do this once - while player two is being setup
+            GridOverLordBattleFieldManager.NeutralizeOilDrips( purpleOilDrip, greenOilDrip, neutralOilDrip);
+
     }
 
     private void SelectNextActiveAsset(int direction)

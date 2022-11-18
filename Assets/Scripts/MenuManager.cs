@@ -28,7 +28,11 @@ public class MenuManager : MonoBehaviour
     private void GameManagerOnGameStateChanged(GameState state)
     {
         welcomePanel.SetActive(state == GameState.WaitingToJoin);        
-        scoreBoardPanel?.SetActive(state == GameState.ScoreBoard);             
+        scoreBoardPanel?.SetActive(state == GameState.ScoreBoard);  
+        if (state == GameState.ScoreBoard && scoreBoardPanel != null)
+        {            
+            scoreBoardPanel.GetComponent<UpdateScoreBoard>().UpdateTheScore();
+        }
         gameStateText.enabled = true; // Helps with debugging (state != GameState.Welcome);
         gameStateText.text = state.ToString();
     }

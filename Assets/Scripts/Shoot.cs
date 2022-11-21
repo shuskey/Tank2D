@@ -65,7 +65,7 @@ public class Shoot : MonoBehaviour
     public void ShootShell()
     {
         var newShell = Instantiate(ShellPrefab, spawnPoint.position, spawnPoint.rotation);        
-        newShell.GetComponent<Rigidbody2D>().velocity = newShell.transform.up * shellSpeed;
+        newShell.GetComponent<Rigidbody2D>().velocity = newShell.transform.up * shellSpeed;       
 
         Destroy(newShell, despawnTime);       
 

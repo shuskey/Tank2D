@@ -15,8 +15,11 @@ public class UpdateScoreBoard : MonoBehaviour
 
     private Canvas myCanvas;
 
+    private WinLoseVideoClipPlayer winLoseVideoClipPlayer;
+
     private void Awake()
     {
+        winLoseVideoClipPlayer = GetComponentInChildren<WinLoseVideoClipPlayer>();
         myCanvas = GetComponentInParent<Canvas>();
         if (myCanvas.worldCamera.targetDisplay == 0) //Player 1
         {
@@ -30,23 +33,53 @@ public class UpdateScoreBoard : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+
     }
 
     public void UpdateTheScore()
     {
         if (myCanvas.worldCamera.targetDisplay == 0)  // Player 1
         {
-            myScoreText.text = GameManager.playerOneScore.ToString();
-            enemyScoreText.text = GameManager.playerTwoScore.ToString();
+            myScoreText.text = GameManager.playerOne.wins.ToString();
+            enemyScoreText.text = GameManager.playerTwo.wins.ToString();
+            CheckForWinnerLoserVideoTime(GameManager.playerOne.wins, GameManager.playerTwo.wins);
         }
         else
         {
-            myScoreText.text = GameManager.playerTwoScore.ToString();
-            enemyScoreText.text = GameManager.playerOneScore.ToString();
+            myScoreText.text = GameManager.playerTwo.wins.ToString();
+            enemyScoreText.text = GameManager.playerOne.wins.ToString();
+            CheckForWinnerLoserVideoTime(GameManager.playerTwo.wins, GameManager.playerOne.wins);
+        }        
+    }
+
+    public void CloseDownResourcesInScoreBoard()
+    {
+        if (winLoseVideoClipPlayer != null)
+            winLoseVideoClipPlayer.SetVideoToStop();
+    }
+
+
+    public void CheckForWinnerLoserVideoTime(int myScore, int enemyScore)
+    {
+        if (myScore + enemyScore == 7)  // best of Seven
+        {            
+            if (myCanvas.worldCamera.targetDisplay == 0) //Player 1
+            {
+                winLoseVideoClipPlayer.SetPlayerOneTexture();
+            }
+            else
+            {
+                winLoseVideoClipPlayer.SetPlayerTwoTexture();
+            }
+
+            if (myScore > enemyScore)
+                winLoseVideoClipPlayer.SetWinningVideoToPlay();
+            else
+                winLoseVideoClipPlayer.SetLosingVideoToPlay();
+
         }
+
     }
 }

@@ -33,6 +33,11 @@ public class MenuManager : MonoBehaviour
         {            
             scoreBoardPanel.GetComponent<UpdateScoreBoard>().UpdateTheScore();
         }
+        if (state != GameState.ScoreBoard && scoreBoardPanel != null)
+        {
+            scoreBoardPanel.GetComponent<UpdateScoreBoard>().CloseDownResourcesInScoreBoard();
+        }
+        
         gameStateText.enabled = true; // Helps with debugging (state != GameState.Welcome);
         gameStateText.text = state.ToString();
     }

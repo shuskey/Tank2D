@@ -178,8 +178,8 @@ public class AssetController : MonoBehaviour
     private void PlayerTwoWallDeployed() => WallDecrement(1);
     private void PlayerOneMineDeployed() => MineDecrement(0);
     private void PlayerTwoMineDeployed() => MineDecrement(1);
-    private void WallDecrement(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { wallInventoryForBaseCamp--; } }
-    private void MineDecrement(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { mineInventoryForBaseCamp--; } }
+    private void WallDecrement(int playerIndex) { GameManager.WallsDroped(playerIndex); if (thisIsMyPlayer(playerIndex)) { wallInventoryForBaseCamp--; } }
+    private void MineDecrement(int playerIndex) { GameManager.MineDroped(playerIndex); if (thisIsMyPlayer(playerIndex)) { mineInventoryForBaseCamp--; } }
     private void SelfDestruct(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { OnSelfdestruct?.Invoke(true); } }
     private bool thisIsMyPlayer(int playerIndex) => (playerIndexThatIBelongTo == playerIndex);
 

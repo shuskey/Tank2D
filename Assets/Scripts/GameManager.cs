@@ -7,16 +7,42 @@ public class GameManager : Singleton<GameManager>
 {
     public static GameState State;
     public static event Action<GameState> OnGameStateChanged;
-    public static int playerOneScore = 0;
-    public static int playerTwoScore = 0;
+    public static PlayerStats playerOne = new PlayerStats();
+    public static PlayerStats playerTwo = new PlayerStats();
 
 
     // Start is called before the first frame update
     void Start()
     {
-        playerOneScore = playerTwoScore = 0;
+        playerOne.wins = 0;  playerTwo.wins = 0;
         UpdateGameState(GameState.WaitingToJoin);
     }
+
+    public static void DistanceTraveled(int playerIndex)
+    {
+        if (playerIndex == 0) playerOne.distanceTraveled++; else playerTwo.distanceTraveled++;
+    }
+
+    public static void MineDroped(int playerIndex)
+    {
+        if (playerIndex == 0) playerOne.minesDeployed++;  else  playerTwo.minesDeployed++;
+    }
+
+    public static void ShotFired(int playerIndex)
+    {
+        if (playerIndex == 0) playerOne.shotsFired++; else playerTwo.shotsFired++;
+    }
+    public static void TankKill(int playerIndex)
+    {
+        if (playerIndex == 0) playerOne.tankKills++; else playerTwo.tankKills++;
+    }
+
+    public static void WallsDroped(int playerIndex)
+    {
+        if (playerIndex == 0) playerOne.wallsDeployed++; else playerTwo.wallsDeployed++;
+    }
+
+
 
     public static void OnPlay()
     {
@@ -25,13 +51,13 @@ public class GameManager : Singleton<GameManager>
 
     public static void OnPlayerOneVictory()
     {
-        playerOneScore++;
+        playerOne.wins++;
         UpdateGameState(GameState.ScoreBoard);
     }
 
     public static void OnPlayerTwoVictory()
     {
-        playerTwoScore++;
+        playerTwo.wins++;
         UpdateGameState(GameState.ScoreBoard);
     }
 

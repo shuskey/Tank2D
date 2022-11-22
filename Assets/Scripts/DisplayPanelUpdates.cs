@@ -10,6 +10,8 @@ public class DisplayPanelUpdates : MonoBehaviour
     [SerializeField] private TMP_Text topDisplayText;
     [SerializeField] private TMP_Text wallCountText;
     [SerializeField] private TMP_Text mineCountText;
+    [SerializeField] private TMP_Text myWinCountText;
+    [SerializeField] private TMP_Text enemyWinCountText;
     [SerializeField] private Image wallIconGoesHere;
     [SerializeField] private Image enemyTankIcon1GoesHere;
     [SerializeField] private Image enemyTankIcon2GoesHere;
@@ -76,6 +78,7 @@ public class DisplayPanelUpdates : MonoBehaviour
 
     public void InitializeDisplayPanel(int wallInventory, int mineInventory)
     {
+        UpdateScores();
         wallCount = wallInventory;
         mineCount = mineInventory;
         playerOneTankCount = 4;
@@ -86,16 +89,35 @@ public class DisplayPanelUpdates : MonoBehaviour
         UpdateDisplayStatus();
     }
 
+    /// <summary>
+    /// Update scores on the heads up display.  If there was a win, show a temporary incrament on the screen while the confetti rains down/up
+    /// </summary>
+    /// <param name="incPlayerOneScore">Indicates that Player One just won, and needs a temporary incrament</param>
+    /// <param name="incPlayerTwoScore">Indicates that Player Two just won, and needs a temporary incrament</param>
+    private void UpdateScores(bool incPlayerOneScore=false, bool incPlayerTwoScore = false)
+    {
+        if (playerIndex == 0)  // Player 1
+        {
+            myWinCountText.text = (GameManager.playerOne.wins + (incPlayerOneScore ? 1 : 0)).ToString();
+            enemyWinCountText.text = (GameManager.playerTwo.wins + (incPlayerTwoScore ? 1 : 0)).ToString();
+        }
+        else
+        {
+            myWinCountText.text = (GameManager.playerTwo.wins + (incPlayerTwoScore ? 1 : 0)).ToString();
+            enemyWinCountText.text = (GameManager.playerOne.wins + (incPlayerOneScore ? 1 : 0)).ToString();
+        }
+    }
+
     private void PlayerOneTankDefeated()
     {
         playerOneTankCount--;
-        UpdateDisplayStatus();
+        UpdateDisplayStatus();      
     }
 
     private void PlayerTwoTankDefeated()
     {
         playerTwoTankCount--;
-        UpdateDisplayStatus();
+        UpdateDisplayStatus();        
     }
     
     private void PlayerOneWallDeployed()
@@ -168,6 +190,7 @@ public class DisplayPanelUpdates : MonoBehaviour
 
     private void ShowPlayerOneDefeated()
     {
+
         ShowDefeatedVictoryStatus(0);
     }
 
@@ -178,6 +201,7 @@ public class DisplayPanelUpdates : MonoBehaviour
 
     private void ShowDefeatedVictoryStatus(int playerIndexThatWasDefeated)
     {
+        UpdateScores(playerIndexThatWasDefeated !=0, playerIndexThatWasDefeated != 1);
         if (playerIndex == playerIndexThatWasDefeated)
             topDisplayText.text = "Defeated !";
         else

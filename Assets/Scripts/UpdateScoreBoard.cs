@@ -79,6 +79,7 @@ public class UpdateScoreBoard : MonoBehaviour
             else
                 winLoseVideoClipPlayer.SetLosingVideoToPlay();
 
+            GameManager.OnTheGameIsOver();
         }
 
     }

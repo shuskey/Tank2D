@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -61,6 +62,11 @@ public class GameManager : Singleton<GameManager>
         UpdateGameState(GameState.ScoreBoard);
     }
 
+    public static void OnTheGameIsOver()
+    {        
+        UpdateGameState(GameState.ScoreBoardFinalScore);
+    }
+
     public static void OnWelcome()
     {
         UpdateGameState(GameState.WaitingToJoin);
@@ -93,11 +99,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public static void OnScoreBoard()
-    {
-        UpdateGameState(GameState.ScoreBoard);
-    }
-
     public static void OnOkContinue()
     {
         if (State == GameState.WaitingToJoin)
@@ -107,6 +108,10 @@ public class GameManager : Singleton<GameManager>
         if (State == GameState.ScoreBoard)
         {
             UpdateGameState(GameState.Play);            
+        }
+        if (State == GameState.ScoreBoardFinalScore)
+        {            
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);         
         }
     }
 
@@ -148,6 +153,7 @@ public class GameManager : Singleton<GameManager>
         WaitingToJoin,
         PlayPaused,
         ScoreBoard,
+        ScoreBoardFinalScore,
         Settings,
         Information,        
         Play,

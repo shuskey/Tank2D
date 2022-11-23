@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Turret Look",
+                    "type": "PassThrough",
+                    "id": "905f2114-7ac5-4d2d-9f07-1ba39e272831",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -94,6 +103,28 @@
                     "name": "",
                     "id": "1ad35693-5f80-406d-84ea-ddeb5d9c8f73",
                     "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ad75e00-63d4-4e31-97b1-58a54b357372",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "495efda9-a856-4f53-bd62-791050efe232",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -296,6 +327,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "OkContinue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c6ff2de-197c-4f7e-ba63-bc8e5aa2aab5",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Turret Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

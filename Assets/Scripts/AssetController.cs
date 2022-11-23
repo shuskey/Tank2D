@@ -46,6 +46,7 @@ public class AssetController : MonoBehaviour
     private Vector3 tankDirection = Vector3.up;
     private Quaternion targetRotation = Quaternion.identity;
     private Vector2 movementInput = Vector2.zero;
+    private Vector2 lookInput = Vector2.zero;
     private bool assetEngaged = false;
     private bool iAmABaseOnlyMoveGunTurret = false;    
     private GameObject gunTurretGameObject;
@@ -82,7 +83,7 @@ public class AssetController : MonoBehaviour
         gunTurretGameObject = new List<GameObject>
             (GameObject.FindGameObjectsWithTag("GunTurret")).
             Find(g => g.transform.IsChildOf(this.transform));
-        iAmABaseOnlyMoveGunTurret = gunTurretGameObject == null ? false : true;
+        iAmABaseOnlyMoveGunTurret = gameObject.name.ToLower().Contains("base");
         movePoint.parent = null;        
 
         // Your target rotation start with your current orientation
@@ -209,6 +210,14 @@ public class AssetController : MonoBehaviour
         }
     }
 
+    public void LookButtonPressed(Vector2 moveVector)
+    {
+        if (gamePlayPaused)
+            return;
+        
+        lookInput = moveVector;            
+    }
+
     public void ShootButtonPressed(bool shootButtonState)
     {
         if (gamePlayPaused)
@@ -268,19 +277,17 @@ public class AssetController : MonoBehaviour
         float horizontal;
         float vertical;
 
-        if (iAmABaseOnlyMoveGunTurret)
-        {            
-            if (movementInput != Vector2.zero)
-            {
-                float targetRotationAngle = Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg - 90;
-                var q = Quaternion.AngleAxis(targetRotationAngle, Vector3.forward);
-                gunTurretGameObject.transform.rotation = 
-                    Quaternion.Slerp(gunTurretGameObject.transform.rotation, q, rotationSpeed * Time.deltaTime);
+        if (lookInput != Vector2.zero)
+        {
+            float targetRotationAngle = Mathf.Atan2(lookInput.y, lookInput.x) * Mathf.Rad2Deg - 90;
+            var q = Quaternion.AngleAxis(targetRotationAngle, Vector3.forward);
+            gunTurretGameObject.transform.rotation = 
+                Quaternion.Slerp(gunTurretGameObject.transform.rotation, q, rotationSpeed * Time.deltaTime);
                 
-            }
-            return;
         }
 
+        if (iAmABaseOnlyMoveGunTurret) return;
+        
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 

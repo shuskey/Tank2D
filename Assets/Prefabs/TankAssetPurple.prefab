@@ -118,6 +118,8 @@ MonoBehaviour:
   moveSpeed: 15
   rotationSpeed: 720
   moveDistance: 3
+  baseCamera: {fileID: 0}
+  healthBar: {fileID: 0}
   leftTrack: {fileID: 6924191242220105168}
   rightTrack: {fileID: 6924191242879287687}
   myLittleLightGameObject: {fileID: 6924191241572728668}
@@ -805,7 +807,7 @@ GameObject:
   - component: {fileID: 6924191242983054735}
   m_Layer: 0
   m_Name: Tower
-  m_TagString: Untagged
+  m_TagString: GunTurret
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -818,7 +820,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6924191242983054721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.37, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

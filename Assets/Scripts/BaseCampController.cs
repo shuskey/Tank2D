@@ -178,6 +178,13 @@ public class BaseCampController : MonoBehaviour
         playerAssetControllerScipt[currentAssetBeingControlledIndex].MoveButtonPressed(context.ReadValue<Vector2>());
     }
 
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        if (gamePlayPaused)
+            return;
+        playerAssetControllerScipt[currentAssetBeingControlledIndex].LookButtonPressed(context.ReadValue<Vector2>());
+    }
+
     public void OnShootButtonPressed(InputAction.CallbackContext context)
     {
         if (gamePlayPaused)

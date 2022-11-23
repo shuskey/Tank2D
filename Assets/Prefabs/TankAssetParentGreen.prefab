@@ -586,6 +586,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6924191242983054721, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: m_TagString
+      value: GunTurret
+      objectReference: {fileID: 0}
     - target: {fileID: 7300019010205854477, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: healthBar
       value: 

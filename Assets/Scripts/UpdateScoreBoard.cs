@@ -63,7 +63,7 @@ public class UpdateScoreBoard : MonoBehaviour
 
     public void CheckForWinnerLoserVideoTime(int myScore, int enemyScore)
     {
-        if (myScore + enemyScore == 7)  // best of Seven
+        if (myScore > 3 || enemyScore > 3)  // first one to 4
         {            
             if (myCanvas.worldCamera.targetDisplay == 0) //Player 1
             {

@@ -14,7 +14,8 @@ public class Shoot : MonoBehaviour
     [SerializeField] float shellSpeed = 50.0f;
 
     public UnityEvent OnShoot, OnCantShoot;
-    public UnityEvent<float> OnReloading; 
+    public UnityEvent<float> OnReloading;
+    private Recoil recoilScript;
 
     private bool canShoot = true;
     private bool shootInputDetected = false;
@@ -23,6 +24,7 @@ public class Shoot : MonoBehaviour
     public void Start()
     {
         OnReloading?.Invoke(reloadDelay);
+        recoilScript = GetComponent<Recoil>();
     }
 
     //public void OnShootButtonPressed(InputAction.CallbackContext context)
@@ -44,7 +46,7 @@ public class Shoot : MonoBehaviour
                 canShoot = false;
                 currentDelayCountdown = reloadDelay;
                 ShootShell();
-               // StartCoroutine(ShootingYield());
+                recoilScript.AddRecoil();
             }
         }
         else

@@ -101,7 +101,7 @@ Transform:
   - {fileID: 6924191242370623196}
   - {fileID: 6262121642096946775}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7300019010205854477
 MonoBehaviour:
@@ -278,6 +278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
+  shakePresetHit: {fileID: 11400000, guid: bd4328bd5427ab74383676e7049ce3d3, type: 2}
+  shakePresetDestroyed: {fileID: 11400000, guid: d7a93a3c6c2182b4ab29c6ca2f5c77d3, type: 2}
   health: 0
   OnDead:
     m_PersistentCalls:
@@ -976,6 +978,7 @@ GameObject:
   - component: {fileID: 6924191243378972911}
   - component: {fileID: 6924191243378972910}
   - component: {fileID: 6924191243378972909}
+  - component: {fileID: 5490390561407309209}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -1103,6 +1106,21 @@ MonoBehaviour:
   OnReloading:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5490390561407309209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6924191243378972896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1733f7da6895754a881b1a56d9f49b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maximumOffestDistance: 0.3
+  recoilAcceleration: 50
+  weaponRecoilStartSpeed: -10
 --- !u!1 &7720255134612133268
 GameObject:
   m_ObjectHideFlags: 0

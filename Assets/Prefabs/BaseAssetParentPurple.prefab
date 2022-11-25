@@ -650,7 +650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6924191243378972911, guid: 6a0acb3c51f2dbe4782edcb5725b5db2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.632
+      value: 0.882
       objectReference: {fileID: 0}
     - target: {fileID: 7300019010205854477, guid: 6a0acb3c51f2dbe4782edcb5725b5db2, type: 3}
       propertyPath: healthBar

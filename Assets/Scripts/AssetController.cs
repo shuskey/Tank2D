@@ -31,6 +31,7 @@ public class AssetController : MonoBehaviour
     [SerializeField] private GameObject minePrefab;
     [SerializeField] private Tile oilDripTile;
 
+
     private bool gamePlayPaused = false;
 
     private int wallInventoryForBaseCamp = 10;
@@ -96,7 +97,11 @@ public class AssetController : MonoBehaviour
         movePoint.parent = gameObject.transform;
         movePoint.transform.localPosition = Vector3.zero;
     }
-        
+      
+    public int playerIndex => playerIndexThatIBelongTo;
+   
+    public bool isThisTheEngagedAsset => assetEngaged;
+
     private void OilDripsWhileMoving(Vector3 dripLocation)
     {
         Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == gridLayerGroundOverlay).FirstOrDefault();
@@ -181,7 +186,13 @@ public class AssetController : MonoBehaviour
     private void PlayerTwoMineDeployed() => MineDecrement(1);
     private void WallDecrement(int playerIndex) { GameManager.WallsDroped(playerIndex); if (thisIsMyPlayer(playerIndex)) { wallInventoryForBaseCamp--; } }
     private void MineDecrement(int playerIndex) { GameManager.MineDroped(playerIndex); if (thisIsMyPlayer(playerIndex)) { mineInventoryForBaseCamp--; } }
-    private void SelfDestruct(int playerIndex) { if (thisIsMyPlayer(playerIndex)) { OnSelfdestruct?.Invoke(true); } }
+    private void SelfDestruct(int playerIndex) {
+        if (thisIsMyPlayer(playerIndex)) 
+        { 
+            OnSelfdestruct?.Invoke(true);            
+        } 
+    }
+
     private bool thisIsMyPlayer(int playerIndex) => (playerIndexThatIBelongTo == playerIndex);
 
     private void GameManagerOnGameStateChanged(GameState state)
@@ -195,6 +206,10 @@ public class AssetController : MonoBehaviour
 
     public void AssetRemoteControlEngaged(bool assetEngaged)
     {
+        //Stop any activies that might be in progress
+        MoveButtonPressed(Vector2.zero);
+        ShootButtonPressed(false);
+
         this.assetEngaged = assetEngaged;
         myLittleLightGameObject.SetActive(assetEngaged);
     }

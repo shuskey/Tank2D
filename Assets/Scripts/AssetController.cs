@@ -48,6 +48,8 @@ public class AssetController : MonoBehaviour
     private Quaternion targetRotation = Quaternion.identity;
     private Vector2 movementInput = Vector2.zero;
     private Vector2 lookInput = Vector2.zero;
+    private Vector2 smoothedLookInput = Vector2.zero;
+    private Vector2 smoothLookInputVelocity = Vector2.zero;
     private bool assetEngaged = false;
     private bool iAmABaseOnlyMoveGunTurret = false;    
     private GameObject gunTurretGameObject;
@@ -223,14 +225,31 @@ public class AssetController : MonoBehaviour
             movementInput = moveVector;
             previousAssetLocation = movePoint.position;            
         }
+       // Debug.Log($"move vector={moveVector} ");
     }
 
     public void LookButtonPressed(Vector2 moveVector)
     {
         if (gamePlayPaused)
             return;
-        
-        lookInput = moveVector;            
+
+        if (moveVector == Vector2.zero)
+            return;
+        //
+        // This was an attempt to smooth out The KB input
+        //smoothedLookInput =  Vector2.SmoothDamp(smoothedLookInput, moveVector, ref smoothLookInputVelocity, 0.1f);
+        //lookInput = smoothedLookInput;
+        lookInput = moveVector;
+        Debug.Log($"look vector={lookInput} ");
+    }
+
+    public void LookButtonZeroLockPressed(bool keyPressOrRelease)
+    {
+        if (keyPressOrRelease)
+        {
+            lookInput = Vector2.zero;
+            gunTurretGameObject.transform.localRotation = Quaternion.AngleAxis(0f, Vector3.forward);
+        }
     }
 
     public void ShootButtonPressed(bool shootButtonState)

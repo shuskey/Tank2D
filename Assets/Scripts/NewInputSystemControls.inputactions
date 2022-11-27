@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Turret Zero Lock",
+                    "type": "Button",
+                    "id": "15474f34-fbf8-4491-b74a-8377751fea40",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -267,7 +276,7 @@
                 {
                     "name": "",
                     "id": "28c0e6a8-a374-4f54-a849-80f7b1ce9a92",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/b",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
@@ -338,6 +347,83 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Turret Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "WASD - Look",
+                    "id": "023a8e3d-eb5f-4e48-963b-740372a0ea38",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turret Look",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Up",
+                    "id": "216693f5-6984-470f-826d-18d0b2d1b327",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Turret Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "dba41fa0-3130-446f-94dd-9f3c6640b7dc",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Turret Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "9a550220-d77a-46ab-8782-9eea3edfa898",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Turret Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "df51e44c-243f-4fbe-8cf4-d369074468f9",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Turret Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "9558d176-868f-4dc7-aea7-6effdb062cfe",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Turret Zero Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91a7f146-96f4-4e69-8adb-21283a65b91f",
+                    "path": "<Keyboard>/l",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turret Zero Lock",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

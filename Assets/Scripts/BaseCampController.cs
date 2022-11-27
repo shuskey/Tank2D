@@ -20,10 +20,10 @@ public class BaseCampController : MonoBehaviour
     private int playerIndexThatOwnsThisBaseCamp = 0;
 
     private int currentAssetBeingControlledIndex = 0;
-    private int assetBufferSize = 5;
+    private readonly int assetBufferSize = 5;
 
-    private Vector2[] assetStartPositions = { Vector2.zero, Vector2.up * 3, Vector2.right * 3, Vector2.down * 3, Vector2.left * 3 };
-    private float[] assetStartRotationAngles = { 0, 0, -90, 180, 90};
+    private readonly Vector2[] assetStartPositions = { Vector2.zero, Vector2.up * 3, Vector2.right * 3, Vector2.down * 3, Vector2.left * 3 };
+    private readonly float[] assetStartRotationAngles = { 0, 0, -90, 180, 90};
 
     private Camera assetFollowCamera;
 
@@ -184,6 +184,14 @@ public class BaseCampController : MonoBehaviour
             return;
         playerAssetControllerScipt[currentAssetBeingControlledIndex].LookButtonPressed(context.ReadValue<Vector2>());
     }
+
+    public void OnLookZeroLock(InputAction.CallbackContext context)
+    {
+        if (gamePlayPaused)
+            return;
+        playerAssetControllerScipt[currentAssetBeingControlledIndex].LookButtonZeroLockPressed(context.action.triggered);
+    }
+
 
     public void OnShootButtonPressed(InputAction.CallbackContext context)
     {

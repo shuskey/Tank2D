@@ -343,7 +343,7 @@ public class AssetController : MonoBehaviour
                     (leftTrack is not null && rightTrack is not null))      // some assets have NO wheels/track so do not move them
                     {
                     var potentialMovePoint = movePoint.position + transform.up * moveDistance;
-                    if (Physics2D.OverlapCircle(potentialMovePoint, 0.2f, whatStopsMovement))
+                    if (Physics2D.OverlapCircle(potentialMovePoint, 0.5f, whatStopsMovement) || DoesMovePointMatchAnyOtherMovePoint(potentialMovePoint))
                     {
                         dropThingWhileMoving = false;
                         weAreMoving = false;
@@ -373,11 +373,28 @@ public class AssetController : MonoBehaviour
         }
     }
 
+    private bool DoesMovePointMatchAnyOtherMovePoint(Vector3 proposedMovePoint)
+    {
+        var allMovePointsGameObjects = GameObject.FindGameObjectsWithTag("MovePoint");
+        foreach (var otherMovePointGameObject in allMovePointsGameObjects)
+        {
+            if (otherMovePointGameObject.transform.position == proposedMovePoint)
+            {
+                return true;
+            }
+            else if (isLocationApproximatlyEqual(otherMovePointGameObject.transform.position, proposedMovePoint))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private bool isRotationApproximatlyEqual(Quaternion q1, Quaternion q2, float precision = 0.0000004f) => 
         Mathf.Abs(Quaternion.Dot(q1, q2)) >= 1 - precision;
 
     private bool isLocationApproximatlyEqual(Vector3 p1, Vector3 p2, float percision = 0.05f) => 
-        Vector3.Distance(transform.position, movePoint.position) < percision;
+        Vector3.Distance(p1, p2) < percision;
 
     void startTracks(bool start)
     {

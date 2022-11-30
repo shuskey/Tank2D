@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 5992297585588285}
   - component: {fileID: 4104871039981476996}
   - component: {fileID: 7052874296086905290}
+  - component: {fileID: -5771352521812832276}
   m_Layer: 0
   m_Name: TankAssetParentGreen
   m_TagString: Untagged
@@ -237,6 +238,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a89a2ca6f4b684409625d8783e926f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5771352521812832276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6434276238102491484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 987388598698e854da6b5f5f80fd750b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6780248894906481091
@@ -455,6 +468,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -503,12 +520,28 @@ PrefabInstance:
       value: ThisTankIsDestroyed
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3142895760703862028}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: -5771352521812832276}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: set_value
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ThisTankIsHit
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
@@ -527,6 +560,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ReportTankHit, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -536,6 +577,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
       propertyPath: OnDead.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: -6905961251908248084, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6924191241432657424, guid: 11d02bfabd721d94f9952f4e425263ab, type: 3}

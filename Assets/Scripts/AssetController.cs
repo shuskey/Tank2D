@@ -42,7 +42,6 @@ public class AssetController : MonoBehaviour
 
     private string gridLayerGroundOverlay = "Ground Overlay";
     private string gridLayerInFrontOfPlayer = "In Front of Player";
-    private string gridLayerColliders = "Colliders";
 
     private Vector3 tankDirection = Vector3.up;
     private Quaternion targetRotation = Quaternion.identity;
@@ -240,7 +239,7 @@ public class AssetController : MonoBehaviour
         //smoothedLookInput =  Vector2.SmoothDamp(smoothedLookInput, moveVector, ref smoothLookInputVelocity, 0.1f);
         //lookInput = smoothedLookInput;
         lookInput = moveVector;
-        Debug.Log($"look vector={lookInput} ");
+        //Debug.Log($"look vector={lookInput} ");
     }
 
     public void LookButtonZeroLockPressed(bool keyPressOrRelease)

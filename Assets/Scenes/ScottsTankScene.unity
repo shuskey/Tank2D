@@ -4024,7 +4024,7 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 3816337760194692596, guid: 75b0219fd2e7be94fb214b46d45a8fb5, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: -1
+  m_FixedNumberOfSplitScreens: 2
   m_SplitScreenRect:
     serializedVersion: 2
     x: 0
@@ -13336,6 +13336,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
+  shakePresetHit: {fileID: 0}
+  shakePresetDestroyed: {fileID: 0}
   health: 0
   OnDead:
     m_PersistentCalls:

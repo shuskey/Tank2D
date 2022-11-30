@@ -56,6 +56,12 @@ public class DisplayPanelUpdates : MonoBehaviour
         EventManager.PlayerOneTankDefeatedEvent += PlayerOneTankDefeated;
         EventManager.PlayerTwoTankDefeatedEvent += PlayerTwoTankDefeated;
 
+        EventManager.PlayerOneTankHitEvent += PlayerOneTankHit;
+        EventManager.PlayerTwoTankHitEvent += PlayerTwoTankHit;
+
+        EventManager.PlayerOneBaseHitEvent += PlayerOneBaseHit;
+        EventManager.PlayerTwoBaseHitEvent += PlayerTwoBaseHit;
+
         EventManager.PlayerOneWallDeployedEvent += PlayerOneWallDeployed;
         EventManager.PlayerTwoWallDeployedEvent += PlayerTwoWallDeployed;
         EventManager.PlayerOneMineDeployedEvent += PlayerOneMineDeployed;
@@ -69,6 +75,9 @@ public class DisplayPanelUpdates : MonoBehaviour
 
         EventManager.PlayerOneTankDefeatedEvent -= PlayerOneTankDefeated;
         EventManager.PlayerTwoTankDefeatedEvent -= PlayerTwoTankDefeated;
+
+        EventManager.PlayerOneTankHitEvent -= PlayerOneTankHit;
+        EventManager.PlayerTwoTankHitEvent -= PlayerTwoTankHit;
 
         EventManager.PlayerOneWallDeployedEvent -= PlayerOneWallDeployed;
         EventManager.PlayerTwoWallDeployedEvent -= PlayerTwoWallDeployed;
@@ -105,6 +114,38 @@ public class DisplayPanelUpdates : MonoBehaviour
         {
             myWinCountText.text = (GameManager.playerTwo.wins + (incPlayerTwoScore ? 1 : 0)).ToString();
             enemyWinCountText.text = (GameManager.playerOne.wins + (incPlayerOneScore ? 1 : 0)).ToString();
+        }
+    }
+
+    private void PlayerOneTankHit()
+    {
+        if (playerIndex == 0)
+        {
+            MyTankWasHit();
+        }
+    }
+
+    private void PlayerTwoTankHit()
+    {
+        if (playerIndex == 1)
+        {
+            MyTankWasHit();
+        }
+    }
+
+    private void PlayerOneBaseHit()
+    {
+        if (playerIndex == 0)
+        {
+            MyBaseWasHit();
+        }
+    }
+
+    private void PlayerTwoBaseHit()
+    {
+        if (playerIndex == 1)
+        {
+            MyBaseWasHit();
         }
     }
 
@@ -155,6 +196,38 @@ public class DisplayPanelUpdates : MonoBehaviour
             mineCountText.text = mineCount.ToString();
         }
     }
+
+    private void MyTankWasHit()
+    {
+        var myTankCount = playerIndex == 0 ? playerOneTankCount : playerTwoTankCount;
+
+        switch (myTankCount)
+        {
+            case 1:
+                myTankIcon4GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+                break;
+            case 2:
+                myTankIcon3GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+                break;
+            case 3:
+                myTankIcon2GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+                break;
+            case 4:
+                myTankIcon1GoesHere.GetComponent<SpriteBlink>().blinkOnce();                
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void MyBaseWasHit()
+    {        
+        myTankIcon1GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+        myTankIcon2GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+        myTankIcon3GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+        myTankIcon4GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+    }
+
 
     private void UpdateDisplayStatus()
     {

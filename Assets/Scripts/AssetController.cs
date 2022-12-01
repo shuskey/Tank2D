@@ -93,6 +93,11 @@ public class AssetController : MonoBehaviour
         previousAssetLocation = transform.position;
     }
 
+    public int getHealth()
+    {
+        return GetComponent<Damagable>().Health;
+    }
+
     public void ReAttachMovePoint()
     {
         movePoint.parent = gameObject.transform;

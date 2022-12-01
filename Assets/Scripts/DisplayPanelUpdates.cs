@@ -62,6 +62,9 @@ public class DisplayPanelUpdates : MonoBehaviour
         EventManager.PlayerOneBaseHitEvent += PlayerOneBaseHit;
         EventManager.PlayerTwoBaseHitEvent += PlayerTwoBaseHit;
 
+        EventManager.PlayerOneAssetChangedEvent += PlayerOneAssetChanged;
+        EventManager.PlayerTwoAssetChangedEvent += PlayerTwoAssetChanged;
+
         EventManager.PlayerOneWallDeployedEvent += PlayerOneWallDeployed;
         EventManager.PlayerTwoWallDeployedEvent += PlayerTwoWallDeployed;
         EventManager.PlayerOneMineDeployedEvent += PlayerOneMineDeployed;
@@ -122,6 +125,7 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 0)
         {
             MyTankWasHit();
+            GetComponentInChildren<HUDHealthController>().UpdateHealth();
         }
     }
 
@@ -130,6 +134,7 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 1)
         {
             MyTankWasHit();
+            GetComponentInChildren<HUDHealthController>().UpdateHealth();
         }
     }
 
@@ -138,6 +143,7 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 0)
         {
             MyBaseWasHit();
+            GetComponentInChildren<HUDHealthController>().UpdateHealth();
         }
     }
 
@@ -146,7 +152,17 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 1)
         {
             MyBaseWasHit();
+            GetComponentInChildren<HUDHealthController>().UpdateHealth();
         }
+    }
+    private void PlayerOneAssetChanged()
+    {
+        if (playerIndex == 0) GetComponentInChildren<HUDHealthController>().UpdateHealth();
+    }
+
+    private void PlayerTwoAssetChanged()
+    {
+        if (playerIndex == 1) GetComponentInChildren<HUDHealthController>().UpdateHealth();
     }
 
     private void PlayerOneTankDefeated()
@@ -222,10 +238,14 @@ public class DisplayPanelUpdates : MonoBehaviour
 
     private void MyBaseWasHit()
     {        
-        myTankIcon1GoesHere.GetComponent<SpriteBlink>().blinkOnce();
-        myTankIcon2GoesHere.GetComponent<SpriteBlink>().blinkOnce();
-        myTankIcon3GoesHere.GetComponent<SpriteBlink>().blinkOnce();
-        myTankIcon4GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+        if (myTankIcon1GoesHere != null) 
+            myTankIcon1GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+        if (myTankIcon2GoesHere != null) 
+            myTankIcon2GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+        if (myTankIcon3GoesHere != null)
+            myTankIcon3GoesHere.GetComponent<SpriteBlink>().blinkOnce();
+        if (myTankIcon4GoesHere != null)
+            myTankIcon4GoesHere.GetComponent<SpriteBlink>().blinkOnce();
     }
 
 

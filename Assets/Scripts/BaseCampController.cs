@@ -169,6 +169,16 @@ public class BaseCampController : MonoBehaviour
         playerAssetControllerScipt[currentAssetBeingControlledIndex].AssetRemoteControlEngaged(true);
         assetFollowCamera.GetComponentInChildren<CameraFollow>().
             SetAssetToFollow(playerAssetGameObjects[currentAssetBeingControlledIndex].transform.GetChild(0).gameObject);
+
+        if (playerIndexThatOwnsThisBaseCamp == 0)
+            EventManager.StartPlayerOneAssetChangedEvent();
+        if (playerIndexThatOwnsThisBaseCamp == 1)
+            EventManager.StartPlayerTwoAssetChangedEvent();
+    }
+
+    public float getHealthOfCurrentAsset()
+    {
+        return (float)playerAssetControllerScipt[currentAssetBeingControlledIndex].getHealth();
     }
 
     public void OnMove(InputAction.CallbackContext context)

@@ -15,6 +15,8 @@ public class EventManager : Singleton<EventManager>
     public static event Action PlayerTwoTankHitEvent;
     public static event Action PlayerOneBaseHitEvent;
     public static event Action PlayerTwoBaseHitEvent;
+    public static event Action PlayerOneAssetChangedEvent;
+    public static event Action PlayerTwoAssetChangedEvent;
     public static event Action CelebratePlayerOneDefeatedEvent;
     public static event Action CelebratePlayerTwoDefeatedEvent;
     public static event Action PlayerOneWallDeployedEvent;
@@ -36,6 +38,8 @@ public class EventManager : Singleton<EventManager>
     public static void StartPlayerTwoTankHitEvent() => PlayerTwoTankHitEvent?.Invoke();
     public static void StartPlayerOneBaseHitEvent() => PlayerOneBaseHitEvent?.Invoke();
     public static void StartPlayerTwoBaseHitEvent() => PlayerTwoBaseHitEvent?.Invoke();
+    public static void StartPlayerOneAssetChangedEvent() => PlayerOneAssetChangedEvent?.Invoke();
+    public static void StartPlayerTwoAssetChangedEvent() => PlayerTwoAssetChangedEvent?.Invoke();
     public static void StartCelebratePlayerOneDefeatedEvent() => CelebratePlayerOneDefeatedEvent?.Invoke();
     public static void StartCelebratePlayerTwoDefeatedEvent() => CelebratePlayerTwoDefeatedEvent?.Invoke();
 

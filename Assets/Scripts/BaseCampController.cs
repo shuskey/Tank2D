@@ -9,8 +9,8 @@ public class BaseCampController : MonoBehaviour
     [SerializeField] private GameObject[] player1AssetPrefabs;
     [SerializeField] private GameObject[] player2AssetPrefabs;
     [SerializeField] private GameObject displayPanel;
-    [SerializeField] private int wallInventory = 10;
-    [SerializeField] private int mineInventory = 10;
+    [SerializeField] private int wallInventory = 30;
+    [SerializeField] private int mineInventory = 15;
     [SerializeField] private Tile purpleOilDrip;
     [SerializeField] private Tile greenOilDrip;
     [SerializeField] private Tile neutralOilDrip;
@@ -111,8 +111,8 @@ public class BaseCampController : MonoBehaviour
 
     public void StartNewBattle()
     {
-        wallInventory = 10;
-        mineInventory = 10;
+        wallInventory = 30;
+        mineInventory = 15;
 
         int index = 0;
         foreach (var baseCampAssetGameObject in playerAssetGameObjects)

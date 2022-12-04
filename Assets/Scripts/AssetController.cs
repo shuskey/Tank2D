@@ -218,6 +218,8 @@ public class AssetController : MonoBehaviour
 
         this.assetEngaged = assetEngaged;
         myLittleLightGameObject.SetActive(assetEngaged);
+        if (myLittleLightGameObject.GetComponent<ParticleSystem>() != null)
+            myLittleLightGameObject.GetComponent<ParticleSystem>().Play();
     }
 
     public void MoveButtonPressed(Vector2 moveVector)

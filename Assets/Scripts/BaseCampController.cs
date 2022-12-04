@@ -17,7 +17,7 @@ public class BaseCampController : MonoBehaviour
 
     private GameObject[] playerAssetGameObjects = new GameObject[5];    
     private AssetController[] playerAssetControllerScipt = new AssetController[5];    
-    private int playerIndexThatOwnsThisBaseCamp = 0;
+    public int playerIndexThatOwnsThisBaseCamp = 0;
 
     private int currentAssetBeingControlledIndex = 0;
     private readonly int assetBufferSize = 5;

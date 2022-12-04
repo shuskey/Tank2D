@@ -9,8 +9,32 @@ public class HUDHealthController : MonoBehaviour
 {
     [SerializeField] GameObject baseCamp;
 
+    private void Awake()
+    {
+        EventManager.PlayerOneUpdateHUDHealthEvent += UpdatePlayerOneHealth;
+        EventManager.PlayerTwoUpdateHUDHealthEvent += UpdatePlayerTwoHealth;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.PlayerOneUpdateHUDHealthEvent -= UpdatePlayerOneHealth;
+        EventManager.PlayerTwoUpdateHUDHealthEvent -= UpdatePlayerTwoHealth;
+    }
+
+    private void UpdatePlayerOneHealth()
+    {
+        if (baseCamp.GetComponent<BaseCampController>().playerIndexThatOwnsThisBaseCamp == 0)
+            UpdateHealth();
+    }
+
+    private void UpdatePlayerTwoHealth()
+    {
+        if (baseCamp.GetComponent<BaseCampController>().playerIndexThatOwnsThisBaseCamp == 1)
+            UpdateHealth();
+    }
+
     // Current Selected Asset Health Percent Amount         
-    public void UpdateHealth()
+    private void UpdateHealth()
     {
         float health = baseCamp.GetComponent<BaseCampController>().getHealthOfCurrentAsset();
         var gradiantImage = GetComponent<Image>();

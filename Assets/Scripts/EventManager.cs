@@ -23,6 +23,8 @@ public class EventManager : Singleton<EventManager>
     public static event Action PlayerTwoWallDeployedEvent;
     public static event Action PlayerOneMineDeployedEvent;
     public static event Action PlayerTwoMineDeployedEvent;
+    public static event Action PlayerOneUpdateHUDHealthEvent;
+    public static event Action PlayerTwoUpdateHUDHealthEvent;
 
     public static void StartPlayerOneJoinedEvent() => PlayerOneJoinedEvent?.Invoke();
     public static void StartPlayerTwoJoinedEvent() => PlayerTwoJoinedEvent?.Invoke();
@@ -42,6 +44,8 @@ public class EventManager : Singleton<EventManager>
     public static void StartPlayerTwoAssetChangedEvent() => PlayerTwoAssetChangedEvent?.Invoke();
     public static void StartCelebratePlayerOneDefeatedEvent() => CelebratePlayerOneDefeatedEvent?.Invoke();
     public static void StartCelebratePlayerTwoDefeatedEvent() => CelebratePlayerTwoDefeatedEvent?.Invoke();
+    public static void StartPlayerOneUpdateHUDHealthEvent() => PlayerOneUpdateHUDHealthEvent?.Invoke();
+    public static void StartPlayerTwoUpdateHUDHealthEvent() => PlayerTwoUpdateHUDHealthEvent?.Invoke();
 
     private void Update()
     {

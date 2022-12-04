@@ -28,6 +28,7 @@ public class DisplayPanelUpdates : MonoBehaviour
     [SerializeField] private Sprite iconPurpleTankExploded;
     [SerializeField] private Sprite iconGreenTank;
     [SerializeField] private Sprite iconGreenTankExploded;
+
     private int playerIndex;
     private int playerOneTankCount = 4;
     private int playerTwoTankCount = 4;
@@ -125,7 +126,7 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 0)
         {
             MyTankWasHit();
-            GetComponentInChildren<HUDHealthController>().UpdateHealth();
+            updateHUDHealth();
         }
     }
 
@@ -134,7 +135,7 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 1)
         {
             MyTankWasHit();
-            GetComponentInChildren<HUDHealthController>().UpdateHealth();
+            updateHUDHealth();
         }
     }
 
@@ -143,7 +144,7 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 0)
         {
             MyBaseWasHit();
-            GetComponentInChildren<HUDHealthController>().UpdateHealth();
+            updateHUDHealth();
         }
     }
 
@@ -152,17 +153,27 @@ public class DisplayPanelUpdates : MonoBehaviour
         if (playerIndex == 1)
         {
             MyBaseWasHit();
-            GetComponentInChildren<HUDHealthController>().UpdateHealth();
+            updateHUDHealth();
         }
     }
     private void PlayerOneAssetChanged()
     {
-        if (playerIndex == 0) GetComponentInChildren<HUDHealthController>().UpdateHealth();
+        if (playerIndex == 0)
+            updateHUDHealth();
     }
 
     private void PlayerTwoAssetChanged()
     {
-        if (playerIndex == 1) GetComponentInChildren<HUDHealthController>().UpdateHealth();
+        if (playerIndex == 1) 
+            updateHUDHealth();
+    }
+
+    private void updateHUDHealth()
+    {
+        if (playerIndex == 0)
+            EventManager.StartPlayerOneUpdateHUDHealthEvent();
+        else if (playerIndex == 1)
+            EventManager.StartPlayerTwoUpdateHUDHealthEvent();
     }
 
     private void PlayerOneTankDefeated()

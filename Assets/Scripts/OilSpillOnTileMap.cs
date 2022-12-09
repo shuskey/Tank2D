@@ -10,10 +10,9 @@ public class OilSpillOnTileMap : MonoBehaviour
     private string groundOverlayTilemapName = "Ground Overlay";
     private string inFrontOfPlayerTilemapName = "In Front of Player";
 
-    // Update is called once per frame
     public void DropAnOilSpill()
     {      
-         var tankAssetTransform = transform.Find("Canvas");
+        var tankAssetTransform = transform.Find("Canvas");
 
         Tilemap tilemap = GameObject.FindObjectsOfType<Tilemap>().Where<Tilemap>(i => i.name == inFrontOfPlayerTilemapName).FirstOrDefault();
         var currentTileCellCoordinates = tilemap.WorldToCell(tankAssetTransform.position);

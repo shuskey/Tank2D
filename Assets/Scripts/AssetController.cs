@@ -15,7 +15,7 @@ using Random = UnityEngine.Random;
 
 public class AssetController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5.0f;  // amount in a second
+    [SerializeField] private float initialMoveSpeed = 8.0f;  // amount in a second
     [SerializeField] private float rotationSpeed = 360.0f;  // amount in a second
     [SerializeField] private float moveDistance = 3.0f;  // amount to move
     [SerializeField] private Camera baseCamera;
@@ -33,6 +33,10 @@ public class AssetController : MonoBehaviour
 
 
     private bool gamePlayPaused = false;
+    private float currentMoveSpeed;
+    private float maxSpeed = 25;
+    private float acceleration = 10;
+    private float deaccelration = 10;
 
     private int wallInventoryForBaseCamp = 10;
     private int mineInventoryForBaseCamp = 10;    
@@ -91,6 +95,8 @@ public class AssetController : MonoBehaviour
         // Your target rotation start with your current orientation
         targetRotation = transform.localRotation;
         previousAssetLocation = transform.position;
+
+        currentMoveSpeed = initialMoveSpeed;
     }
 
     public int getHealth()
@@ -220,6 +226,8 @@ public class AssetController : MonoBehaviour
         myLittleLightGameObject.SetActive(assetEngaged);
         if (myLittleLightGameObject.GetComponent<ParticleSystem>() != null)
             myLittleLightGameObject.GetComponent<ParticleSystem>().Play();
+
+        currentMoveSpeed = initialMoveSpeed;
     }
 
     public void MoveButtonPressed(Vector2 moveVector)
@@ -230,8 +238,23 @@ public class AssetController : MonoBehaviour
         {
             movementInput = moveVector;
             previousAssetLocation = movePoint.position;            
+        }        
+        Debug.Log($"move vector={moveVector}, speed={currentMoveSpeed} ");
+     }
+
+    private float CalculateSpeedWithAcceleration(Vector2 movementVector)
+    {
+        float returnThisSpeed = currentMoveSpeed;
+
+        if (weAreMoving && Mathf.Abs(movementVector.magnitude) > 0)
+        {
+            returnThisSpeed += (acceleration * Time.deltaTime);
+        } else
+        {
+            returnThisSpeed -= deaccelration;
         }
-       // Debug.Log($"move vector={moveVector} ");
+
+        return Mathf.Clamp(returnThisSpeed, initialMoveSpeed, maxSpeed);
     }
 
     public void LookButtonPressed(Vector2 moveVector)
@@ -329,7 +352,7 @@ public class AssetController : MonoBehaviour
         if (iAmABaseOnlyMoveGunTurret) return;
         
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, currentMoveSpeed * Time.deltaTime);
 
         if (isLocationApproximatlyEqual(transform.position, movePoint.position) &&
             isRotationApproximatlyEqual(transform.rotation, targetRotation))
@@ -396,6 +419,7 @@ public class AssetController : MonoBehaviour
         {
             startTracks(true);
         }
+        currentMoveSpeed = CalculateSpeedWithAcceleration(movementInput);
     }
 
     private bool DoesMovePointMatchAnyOtherMovePoint(Vector3 proposedMovePoint)

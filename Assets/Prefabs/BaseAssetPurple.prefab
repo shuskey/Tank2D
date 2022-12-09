@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac881ad135c40a4b8320154b8e13559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
+  initialMoveSpeed: 5
   rotationSpeed: 20
   moveDistance: 3
   baseCamera: {fileID: 0}
@@ -832,7 +832,7 @@ MonoBehaviour:
   ShellPrefab: {fileID: 2812189171711114962, guid: 9d9905f72527def45a96aa463085dbcd, type: 3}
   reloadDelay: 0.1
   despawnTime: 1
-  shellSpeed: 30
+  shellSpeed: 50
   OnShoot:
     m_PersistentCalls:
       m_Calls:
